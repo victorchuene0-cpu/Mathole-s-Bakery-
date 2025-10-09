@@ -1,127 +1,452 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<title>Mathole's Bakery Delicacies</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mathole Bakery Delicacies</title>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: white;
+      color: #4a235a;
+      line-height: 1.5;
+    }
+
+    h1, h2, h3, h4, h5 {
+      color: pink;
+      margin: 0.5em 0;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      background: white;
+      border-bottom: 1px solid #ddd;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5em 1em;
+    }
+    .nav-links {
+      display: flex;
+      gap: 1em;
+    }
+    nav a {
+      font-weight: bold;
+      color: #4a235a;
+      text-decoration: none;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .hero {
+      background: linear-gradient(to right, #fbc2eb, #a6c1ee);
+      padding: 40px 20px;
+      text-align: center;
+      font-style: italic;
+      font-size: 1.5em;
+    }
+
+    section {
+      padding: 20px;
+      max-width: 900px;
+      margin: 0 auto 40px auto;
+    }
+
+    .menu-section {
+      margin-bottom: 2em;
+    }
+
+    .menu-item {
+      border-bottom: 1px solid #ddd;
+      padding: 15px 0;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .menu-item img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 2px solid pink;
+    }
+    .menu-item-details {
+      flex-grow: 1;
+    }
+    .menu-item-details p {
+      margin: 0.2em 0;
+    }
+
+    .star-rating {
+      direction: rtl;
+      font-size: 24px;
+      unicode-bidi: bidi-override;
+      text-align: center;
+      padding: 10px 0;
+    }
+    .star-rating input[type="radio"] {
+      display: none;
+    }
+    .star-rating label {
+      color: lightgray;
+      cursor: pointer;
+      padding: 0 5px;
+      user-select: none;
+    }
+    .star-rating input[type="radio"]:checked ~ label,
+    .star-rating label:hover,
+    .star-rating label:hover ~ label {
+      color: gold;
+    }
+
+    form {
+      max-width: 400px;
+      margin: 20px auto;
+      padding: 15px;
+      background: #f6e3f7;
+      border-radius: 8px;
+    }
+    form label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    form input[type="text"],
+    form textarea {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: vertical;
+    }
+    form button[type="submit"] {
+      background-color: pink;
+      border: none;
+      padding: 10px 20px;
+      color: white;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+    }
+    form button[type="submit"]:hover {
+      background-color: #bf4a99;
+    }
+
+    footer {
+      background-color: black;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    footer a {
+      color: pink;
+      margin: 0 10px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    #scrollBtn {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 30px;
+      z-index: 99;
+      border: none;
+      outline: none;
+      background-color: #555;
+      color: white;
+      cursor: pointer;
+      padding: 15px;
+      border-radius: 10px;
+      font-size: 18px;
+    }
+    #scrollBtn:hover {
+      background-color: #333;
+    }
+
+    @media (max-width: 600px) {
+      .menu-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .menu-item img {
+        width: 100%;
+        height: auto;
+      }
+      .nav-links {
+        display: none;
+      }
+      .nav-toggle {
+        display: block;
+        cursor: pointer;
+        font-size: 1.5em;
+      }
+    }
+    @media (min-width: 601px) {
+      .nav-toggle {
+        display: none;
+      }
+    }
+  </style>
 </head>
 <body>
-  <img src=image/IMG-20251003-WA0006 (5)_111047.jpg>
-<style>
-body {
-background-color: white: /*whole page background white*/
-}
-h1, h2, h3, h4{
-color: pink; /*all headings pink */
-}
-.centered-list{
-text-align: center; /* center text */
-}
-.centered-list ul {
-display: inline-block; /* allow the list to shrink to content width text-align:left; /* left-align the list items */
-padding-left: 20px; /* space for bullets */
-}
-</style>
-<h1 align="center">
-<i>Mathole's Bakery</i><br/>
-<i>Delicacies</i>
-</h1>
-<h3 align="center">
-</i>From Our Ovens To Your Heart, Freshly Baked.</i><br/><br/>
-Welcome To Mathole Bakery, your home of fresh homemade delights baked with love!Taste the difference in every bite.<br/>
-Our bakers work early mornings to bring you the freshest scones, biscuits, cupcakes and so much more, made from quality ingredients and secret family recipes.<br/>We believe in creating treats that warm your heart and satisfy your sweet tooth, perfect for celebrations or everyday joy.<br/>
-</h3>
-<hr width="100%">
-<h3 align="center">Here at Mathole Bakery are treats are:</h3>
-<ul align="center">
-Baked Fresh Daily from Quality Ingredients.<br/>
-Handcrafted Goodness in Every Treat.<br/>
-Perfect for Family Gatehrings and Special Occasions.<br/>
-Made with Natural Flavors, No Preservatives.<br/>
-</ul>
-<hr width="100%">
-<h4 align="center">Have the desire for something sweet, well your in luck.<br/>On our simple Menu we offer you:</h4><br/>
-<div class="center-list">
-<h2 align="center"><i>Scones</i></h2>
-<ul align="center">
-5 Litre-R230<br/>
-10 Litre-R350<br/>
-20 Litre-R500(in excl Bucket)<br/>
-20 Litre-R545(in incl Bucket)<br/>
-<br/>
-  <img src="image/IMG-20251003-WA0006 (5)_111047.jpg" align="center" width="100" height="100" alt="picture of Scones">
-</ul>
-<h2 align="center"><i>Biscuits</i></h2>
-<ul align="center">
-5 Litre-R280<br/>
-10 Litre-R560<br/>
-20 Litre-R850<br/>
-<br/>
-<img src="image/IMG-20251003-WA0006 (3)_111043.JPG" align="center" width="100" height="100">
-  
-<h2 align="center"><i>Cupcakes</i></h2>
-<ul align="center">
-5 Litre-R360<br/>
-10 Litre-R750<br/>
-20 Litre-R1 280<br/>
-<br/>
-<img src="image/IMG-20251003-WA0006 (2)_111048.jpg" align="center" width="100" height="100">
-  
-</ul>
-</div>
-<h5 align="center">Thank you for visiting Mathole Bakery! We can't wait to delight you with our fresh homemade treats baked straight from the heart.<br/>
-<ul>
-Order Today and Taste the Love!<br/>
-Contact us now for special bulk orders!<br/>
-Freshness you can smell, sweetness you'll love!<br/>
-</h5>
-<h2 align="center">Leave a Review</h2>
-<form align="center">
-<label for="name">Name:</label><br/>
-<input type="text" id="name" name="name"><br/><br/>
-<label for="review" name="review">Your Review:</label><br/>
-<textarea id="review" name="review" rows="6" cols"60"></textarea><br/><br/>
-<input type="submit" value="submit">
-</form>
-<hr width="100%">
-<div style="background-color: black; color: white; padding: 10px; text-align: center;">
-<h3 align="center">Catch us at:</h3>
-<p align="center">
-Lebowakgomo Zone F 1839<br/>
-Phone:067 820 0669
-</p>
-<h3 align="center">Follow us on social media:</h3>
-<p align="cemter">
-<a href="https://www.facebook.com/your facebook link" target="_blank">FACEBOOK</a><br/>
-<a href="https://www.instagram.com/matholemmashoka?gsh=YzljYTk1ODg3Zg==" target="_blank">INSTAGRAM</a><br/>
-<a href="https://www.gmail.com/mmashoka.mathole@gmail.com" target="_blank">GMAIL</a>
-</p>
-</div>
+  <nav>
+    <div class="nav-brand"><strong>Mathole Bakery</strong></div>
+    <div class="nav-links">
+      <a href="#menu">Menu</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#contact">Contact</a>
+      <a href="#follow">Follow</a>
+    </div>
+    <div class="nav-toggle" id="navToggle">☰</div>
+  </nav>
+
+  <section class="hero">
+    <h3>From Our Ovens To Your Heart, Freshly Baked.</h3>
+    <p>
+      Welcome To Mathole Bakery, your home of fresh homemade delights baked with love! Taste the difference in every bite.<br/>
+      We bring you the freshest scones, biscuits, cupcakes and so much more, made from quality ingredients and secret family recipes.<br/>
+      We believe in creating treats that warm your heart and satisfy your sweet tooth.
+    </p>
+  </section>
+
+  <hr>
+
+  <section id="menu">
+    <h2 class="centered-list">Our Delicacies</h2>
+
+    <div class="menu-section">
+      <h3>Scones</h3>
+      <div class="menu-item">
+        <img src="business web/IMG-20251003-WA0006 (5).jpg" alt="Scones image">
+        <div class="menu-item-details">
+          <p>5 Litre — R230</p>
+          <p>10 Litre — R350</p>
+          <p>20 Litre (excl Bucket) — R500</p>
+          <p>20 Litre (incl Bucket) — R545</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-section">
+      <h3>Biscuits</h3>
+      <div class="menu-item">
+        <img src="IMG-20251003-WA0006 (3).jpg" alt="Biscuits image">
+        <div class="menu-item-details">
+          <p>5 Litre — R360</p>
+          <p>10 Litre — R560</p>
+          <p>20 Litre — R850</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-section">
+      <h3>Cupcakes</h3>
+      <div class="menu-item">
+        <img src="IMG-20251003-WA0006 (2).jpg" alt="Cupcakes image">
+        <div class="menu-item-details">
+          <p>5 Litre — R360</p>
+          <p>10 Litre — R750</p>
+          <p>20 Litre — R1 280</p>
+        </div>
+      </div>
+    </div>
+
+    <p><strong>Note: Prices are subject to changes.</strong></p>
+  </section>
+
+  <section id="reviews">
+    <h2>Leave a Review</h2>
+    <form id="reviewForm">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" />
+
+      <label for="reviewText">Your Review:</label>
+      <textarea id="reviewText" name="reviewText" rows="6" cols="60" required></textarea>
+
+      <div class="star-rating" aria-label="Star Rating">
+        <input type="radio" id="star5" name="rating" value="5" required /><label for="star5" title="5 stars">★</label>
+        <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 stars">★</label>
+        <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 stars">★</label>
+        <input type="radio" id="star2" name="rating" value="2" /><label for "star2" title="2 stars">★</label>
+        <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 star">★</label>
+      </div>
+
+      <button type="submit">Submit Review</button>
+    </form>
+
+    <div id="reviewsList" class="reviews"></div>
+  </section>
+
+  <input id="scrollBtn" type="button" value="↑ Top" title="Go to top" />
+
+  <section id="contact">
+    <div style="background-color: black; color: white; padding: 10px; text-align: center;">
+      <h3>Catch us at:</h3>
+      <p>
+        Lebowakgomo Zone F 1839<br/>
+        Phone: 067 820 0669
+      </p>
+      <h3>Follow us on social media:</h3>
+      <p>
+        <a href="https://www.instagram.com/matholemmashoka?gsh=YzljYTk1ODg3Zg==" target="_blank" rel="noopener">Instagram</a><br/>
+        <a href="mailto:mmashoka.mathole@gmail.com" target="_blank" rel="noopener">Gmail</a>
+      </p>
+    </div>
+  </section>
+
+  <section id="follow">
+    <h2 class="centered-list">Follow Updates</h2>
+    <p class="centered-list">Click the button below to “follow” and get updates.</p>
+    <div class="centered-list">
+      <button id="followButton">Follow Us</button>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2025 Mathole's Bakery | All rights reserved
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const form = document.getElementById('reviewForm');
+      const reviewsList = document.getElementById('reviewsList');
+      const scrollBtn = document.getElementById('scrollBtn');
+      const navToggle = document.getElementById('navToggle');
+      const navLinks = document.querySelector('.nav-links');
+      const followButton = document.getElementById('followButton');
+
+      // Load existing reviews from localStorage on page load
+      function loadReviewsFromStorage() {
+        const stored = localStorage.getItem('reviews');
+        if (stored) {
+          try {
+            const reviews = JSON.parse(stored);
+            reviews.forEach(r => {
+              displayReview(r.name, r.text, r.rating);
+            });
+          } catch (e) {
+            console.error('Failed to parse stored reviews', e);
+          }
+        }
+      }
+
+      // Save an array of reviews to localStorage
+      function saveReviewsToStorage(reviews) {
+        try {
+          const str = JSON.stringify(reviews);
+          localStorage.setItem('reviews', str);
+        } catch (e) {
+          console.error('Failed to save reviews', e);
+        }
+      }
+
+      // Get the reviews array (from storage or empty)
+      function getStoredReviewsArray() {
+        const stored = localStorage.getItem('reviews');
+        if (stored) {
+          try {
+            return JSON.parse(stored);
+          } catch (e) {
+            console.error('Parse error', e);
+            return [];
+          }
+        }
+        return [];
+      }
+
+      // Display a single review (name, text, rating) on page
+      function displayReview(name, text, rating) {
+        const reviewItem = document.createElement('div');
+        reviewItem.classList.add('review-item');
+
+        let stars = '';
+        for (let i = 0; i < rating; i++) stars += '★';
+        for (let i = rating; i < 5; i++) stars += '☆';
+
+        const starDisplay = document.createElement('div');
+        starDisplay.classList.add('review-stars');
+        starDisplay.textContent = stars;
+
+        const reviewTextNode = document.createElement('p');
+        reviewTextNode.textContent = (name ? (name + ': ') : '') + text;
+
+        reviewItem.appendChild(starDisplay);
+        reviewItem.appendChild(reviewTextNode);
+
+        reviewsList.appendChild(reviewItem);
+      }
+
+      // On small screens: toggle nav links
+      navToggle.addEventListener('click', function () {
+        if (navLinks.style.display === 'flex') {
+          navLinks.style.display = 'none';
+        } else {
+          navLinks.style.display = 'flex';
+          navLinks.style.flexDirection = 'column';
+        }
+      });
+
+      if (form) {
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+
+          const name = document.getElementById('name').value.trim();
+          const reviewText = document.getElementById('reviewText').value.trim();
+          const ratingInput = form.rating;
+          const rating = ratingInput ? parseInt(ratingInput.value) : null;
+
+          if (!reviewText) {
+            alert('Please write a review.');
+            return;
+          }
+
+          // Display it immediately
+          displayReview(name, reviewText, rating);
+
+          // Save to storage
+          const arr = getStoredReviewsArray();
+          arr.push({ name, text: reviewText, rating });
+          saveReviewsToStorage(arr);
+
+          // Reset form
+          form.reset();
+        });
+      }
+
+      // Scroll button logic
+      window.onscroll = function () {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+          scrollBtn.style.display = 'block';
+        } else {
+          scrollBtn.style.display = 'none';
+        }
+      };
+      scrollBtn.addEventListener('click', function () {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      // Follow button placeholder
+      followButton.addEventListener('click', function () {
+        alert('Thanks for following! We will keep you updated.');
+      });
+
+      // Load stored reviews when page first opens
+      loadReviewsFromStorage();
+    });
+  </script>
 </body>
-</html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+          </html>
+                                                                   
