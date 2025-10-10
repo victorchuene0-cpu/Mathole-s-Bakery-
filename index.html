@@ -235,6 +235,144 @@
   color: #4a235a;
   margin-top: 0.2em;
 }
+    .review-item {
+  margin-bottom: 1em;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 0.5em;
+  position: relative;
+}
+
+.review-stars {
+  font-size: 1.2em;
+  color: gold;
+}
+
+.review-item p {
+  margin: 0.3em 0;
+}
+
+.review-item button.delete-review {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  padding: 2px 6px;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+.review-item button.delete-review:hover {
+  background-color: #d32f2f;
+}
+    document.addEventListener('DOMContentLoaded', function () {
+  const form = document.getElementById('reviewForm');
+  const reviewsList = document.getElementById('reviewsList');
+
+  // Get stored reviews (returns array)
+  function getStoredReviews() {
+    const stored = localStorage.getItem('reviews');
+    if (stored) {
+      try {
+        return JSON.parse(stored);
+      } catch (e) {
+        console.error('Error parsing reviews from storage', e);
+        return [];
+      }
+    }
+    return [];
+  }
+
+  // Save reviews array to storage
+  function saveReviews(arr) {
+    try {
+      localStorage.setItem('reviews', JSON.stringify(arr));
+    } catch (e) {
+      console.error('Error saving to localStorage', e);
+    }
+  }
+
+  // Render all reviews (clear then display)
+  function renderReviews() {
+    reviewsList.innerHTML = '';  // clear
+    const arr = getStoredReviews();
+    arr.forEach((rev, index) => {
+      displayReview(rev.name, rev.text, rev.rating, index);
+    });
+  }
+
+  // Display a single review with delete button
+  function displayReview(name, text, rating, index) {
+    const reviewItem = document.createElement('div');
+    reviewItem.classList.add('review-item');
+
+    // Stars
+    let stars = '';
+    for (let i = 0; i < rating; i++) stars += '★';
+    for (let i = rating; i < 5; i++) stars += '☆';
+
+    const starDisplay = document.createElement('div');
+    starDisplay.classList.add('review-stars');
+    starDisplay.textContent = stars;
+    reviewItem.appendChild(starDisplay);
+
+    const reviewTextNode = document.createElement('p');
+    reviewTextNode.textContent = (name ? (name + ': ') : '') + text;
+    reviewItem.appendChild(reviewTextNode);
+
+    // Delete button
+    const btn = document.createElement('button');
+    btn.textContent = 'Delete';
+    btn.classList.add('delete-review');
+    btn.addEventListener('click', function () {
+      // On delete: remove from storage, re-render
+      let arr = getStoredReviews();
+      arr.splice(index, 1);  // remove this review
+      saveReviews(arr);
+      renderReviews();
+    });
+
+    reviewItem.appendChild(btn);
+
+    reviewsList.appendChild(reviewItem);
+  }
+
+  // On form submit
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const reviewText = document.getElementById('reviewText').value.trim();
+      const ratingInput = form.rating;
+      const rating = ratingInput ? parseInt(ratingInput.value) : 0;
+
+      if (!reviewText) {
+        alert('Please write a review.');
+        return;
+      }
+
+      // Save new review
+      const arr = getStoredReviews();
+      arr.push({
+        name: name,
+        text: reviewText,
+        rating: rating
+      });
+      saveReviews(arr);
+
+      // Re-render all reviews
+      renderReviews();
+
+      form.reset();
+    });
+  }
+
+  // Initial render from storage
+  renderReviews();
+});
+    
     
   </style>
 </head>
@@ -327,6 +465,8 @@
       </div>
 
       <button type="submit">Submit Review</button>
+      <button class="delete-review">Delete</button>
+      
     </form>
 
     <div id="reviewsList" class="reviews"></div>
@@ -492,6 +632,7 @@
 </body>
           </html>
                                                                    
+
 
 
 
