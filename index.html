@@ -621,6 +621,55 @@
   margin-top: 15px;
   color: #4a235a;
 }
+      /* Replace your grid layout for cards with flexbox */
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* space between items */
+}
+
+/* Make each card a flex item with a default size */
+.card {
+  flex: 1 1 280px; /* grow, shrink, base width */
+  /* Optional: set a max-width if you want cards not to stretch too wide */
+  max-width: 320px;
+}
+
+/* Re-style inner content if needed */
+.card img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.menu-item-details {
+  padding: 15px;
+  /* other styling you had before */
+}
+      .hero {
+  /* Remove any overlay or gradient */
+  background: none !important;
+
+  /* Set the “original” background color you had before
+     Replace #yourColor with your actual color */
+  background-color: #fbc2eb; /* Example: a soft pink pastel. Change as needed */
+
+  /* If you still want a background image (without the dark overlay):
+     background-image: url('image/highres-cupcake-hero.jpg');
+     background-size: cover;
+     background-position: center;
+  */
+
+  /* Make sure your text is on top */
+  color: #4a235a; /* or whatever text color was before */
+  position: relative;
+  padding: 100px 20px;
+  text-align: center;
+      }
+  .hero::after {
+  content: none !important; /* This removes the overlay element */
+  }
       
   
   </style>
@@ -982,6 +1031,7 @@ document.addEventListener('DOMContentLoaded', renderFeaturedReviews);
 </body>
           </html>
                                                                    
+
 
 
 
