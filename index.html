@@ -658,6 +658,20 @@
 .hero::after {
   content: none;  /* remove any overlay if you added one */
     }
+      .hero {
+  background: linear-gradient(to right, #fbc2eb, #a6c1ee) !important;
+  /* Or if you only want the original single color, use: */
+  /* background: #fbc2eb !important; */
+  color: #4a235a; 
+  position: relative;
+  padding: 100px 20px;
+  text-align: center;
+}
+
+.hero::after {
+  content: none !important;
+  background: none !important;
+}
       
   </style>
 </head>
@@ -1018,6 +1032,7 @@ document.addEventListener('DOMContentLoaded', renderFeaturedReviews);
 </body>
           </html>
                                                                    
+
 
 
 
