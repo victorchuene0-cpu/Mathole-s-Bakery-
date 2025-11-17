@@ -432,21 +432,122 @@
   }
       }
     
+    .hero {
+  background: url('image/highres-cupcake-hero.jpg') center/cover no-repeat;
+  color: #fff;
+  padding: 100px 20px;
+  text-align: center;
+  position: relative;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35); /* semi-dark overlay for readability */
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+}
+
+.btn-primary {
+  display: inline-block;
+  background-color: #ff66b2; /* adjust this to your pink brand color */
+  padding: 12px 30px;
+  color: #fff;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.btn-primary:hover {
+  background-color: #e655a3; /* slightly darker hover color */
+              }
     
-    
+    .card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  overflow: hidden;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.card img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.menu-item-details {
+  padding: 15px;
+  flex-grow: 1;
+}
+
+.menu-item-details h4 {
+  margin-bottom: 0.5em;
+  color: #4a235a; /* your heading color */
+}
+
+.menu-item-details p {
+  margin: 0.3em 0;
+  color: #333;
+    }
+    .nav-links {
+  display: flex;
+  gap: 1em;
+}
+
+.nav-toggle {
+  display: none;
+  cursor: pointer;
+  font-size: 1.5em;
+}
+
+@media (max-width: 600px) {
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    background: white;
+  }
+  .nav-links.show {
+    display: flex;
+  }
+  .nav-toggle {
+    display: block;
+  }
+}
+      
   </style>
 </head>
 <body>
-  <nav>
-    <div class="nav-toggle" id="navToggle">☰</div>
+
     
-    <div class="nav-links">
-      <a href="#menu">Menu</a>
-      <a href="#reviews">Reviews</a>
-      <a href="#contact">Contact</a>
-      <a href="#follow">Follow</a>
-    </div>
-    <div class="nav-toggle" id="navToggle">☰</div>
+    <nav>
+  <div class="nav-toggle" id="navToggle">☰</div>
+  <div class="nav-links" id="navLinks">
+    <a href="#menu">Menu</a>
+    <a href="#reviews">Reviews</a>
+    <a href="#contact">Contact</a>
+    <a href="#follow">Follow</a>
+  </di>
   </nav>
   <header class="site-header">
   <img src="image/A_logo_design_for_Mathole_s_Bakery_featuring_a_playful_and_inviting_theme_with_shades_of_pink_The_logo_sho...ke_and_a_whisk_combined_with_a_cheerful_script_font_for_the_name_Mathole_s_Bakery_The_design_should_evoke_a_sense_of_swee.jpeg" alt="Mathole's Bakery Logo" class="logo-image">
@@ -465,44 +566,42 @@
   <hr>
 
   <section id="menu">
-    <h2 class="centered-list">Our Delicacies</h2>
+  <h2>Our Delicacies</h2>
+  <div class="card-container">
 
-    <div class="menu-section">
-      <h3>Scones</h3>
-      <div class="menu-item">
-        <img src="image/IMG-20251003-WA0006 (5)_111047.jpg" alt="Scones image">
-        <div class="menu-item-details">
-          <p>5 Litre — R230</p>
-          <p>10 Litre — R350</p>
-          <p>20 Litre (excl Bucket) — R500</p>
-          <p>20 Litre (incl Bucket) — R545</p>
-        </div>
+    <div class="menu-item card">
+      <img src="image/IMG-20251003-WA0006 (5)_111047.jpg" alt="Scones from Mathole's Bakery">
+      <div class="menu-item-details">
+        <h4>Scones</h4>
+        <p>5 Litre — R230</p>
+        <p>10 Litre — R350</p>
+        <p>20 Litre (excl Bucket) — R500</p>
+        <p>20 Litre (incl Bucket) — R545</p>
       </div>
     </div>
 
-    <div class="menu-section">
-      <h3>Biscuits</h3>
-      <div class="menu-item">
-        <img src="image/IMG-20251003-WA0006 (3)_111043.jpg" alt="Biscuits image">
-        <div class="menu-item-details">
-          <p>5 Litre — R360</p>
-          <p>10 Litre — R560</p>
-          <p>20 Litre — R850</p>
-        </div>
+    <div class="menu-item card">
+      <img src="image/IMG-20251003-WA0006 (3)_111043.jpg" alt="Biscuits from Mathole's Bakery">
+      <div class="menu-item-details">
+        <h4>Biscuits</h4>
+        <p>5 Litre — R360</p>
+        <p>10 Litre — R560</p>
+        <p>20 Litre — R850</p>
       </div>
     </div>
 
-    <div class="menu-section">
-      <h3>Cupcakes</h3>
-      <div class="menu-item">
-        <img src="IMG-20251003-WA0006 (2)_111048.jpg" alt="Cupcakes image">
-        <div class="menu-item-details">
-          <p>5 Litre — R360</p>
-          <p>10 Litre — R750</p>
-          <p>20 Litre — R1 280</p>
-        </div>
+    <div class="menu-item card">
+      <img src="image/IMG-20251003-WA0006 (2)_111048.jpg" alt="Cupcakes from Mathole's Bakery">
+      <div class="menu-item-details">
+        <h4>Cupcakes</h4>
+        <p>5 Litre — R360</p>
+        <p>10 Litre — R750</p>
+        <p>20 Litre — R1 280</p>
       </div>
     </div>
+
+  </div>
+  
 
     <p><strong>Note: Prices are subject to changes.</strong></p>
   </section>
@@ -694,11 +793,18 @@ const navLinks = document.querySelector('.nav-links');
 navToggle.addEventListener('click', () => {
   navLinks.classList.toggle('show');
 });
+    const navToggle = document.getElementById('navToggle');
+const navLinks = document.getElementById('navLinks');
+
+navToggle.addEventListener('click', () => {
+  navLinks.classList.toggle('show');
+});
     
   </script>
 </body>
           </html>
                                                                    
+
 
 
 
