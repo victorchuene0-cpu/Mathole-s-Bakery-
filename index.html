@@ -672,6 +672,26 @@
   content: none !important;
   background: none !important;
 }
+      /* ===== Hero background override ===== */
+.hero {
+  /* Restore your original gradient background */
+  background: linear-gradient(to right, #fbc2eb, #a6c1ee) !important;
+  
+  /* Make sure text color is correct */
+  color: #4a235a; /* or whatever you want for the hero text */
+
+  /* Keep the padding and positioning you want */
+  padding: 100px 20px !important;
+  text-align: center !important;
+  position: relative !important;
+}
+
+/* Remove any overlay pseudo-element that might be adding a dark layer */
+.hero::after {
+  content: none !important;
+  background: none !important;
+}
+      
       
   </style>
 </head>
@@ -1032,6 +1052,7 @@ document.addEventListener('DOMContentLoaded', renderFeaturedReviews);
 </body>
           </html>
                                                                    
+
 
 
 
