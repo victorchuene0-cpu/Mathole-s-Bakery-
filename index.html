@@ -869,8 +869,35 @@
     margin: 0 auto; /* center-img if needed */
   }
   }
-  
+  /* Prevent sticky header from covering the reviews section when linking */
+#reviews {
+  scroll-margin-top: 80px; /* Adjust this value to match your nav / header height */
+      }
+             /* Offset for anchor links so sticky header doesn’t overlap */
+#reviews {
+  scroll-margin-top: 80px; /* Change 80px to the height of your sticky header */
+    }
+    
+    /* Example: only critical styles */
+    .hero {
+      background: linear-gradient(to right, #fbc2eb, #a6c1ee);
+      padding: 40px 20px;
+      text-align: center;
+      font-style: italic;
+      font-size: 1.5em;
+    }
+    nav {
+      position: sticky;
+      top: 0;
+      background: white;
+      border-bottom: 1px solid #ddd;
+    }
+    /* Add any other styles that are needed immediately */
   </style>
+
+  <!-- Defer the rest of the stylesheet -->
+  <link rel="preload" href="css/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="css/style.css"></noscript>
 </head>
 <body>
 
@@ -879,7 +906,7 @@
   <div class="nav-toggle" id="navToggle">☰</div>
   <div class="nav-links" id="navLinks">
     <a href="#menu">Menu</a>
-    <a href="#leave a review">Reviews</a>
+    <a href="#reviews-section">Reviews</a>
     <a href="#contact">Contact</a>
     <a href="#subscribe">Subscribe</a>
   </di>
@@ -1301,6 +1328,7 @@ navToggle.addEventListener('click', () => {
 </body>
           </html>
                                                                    
+
 
 
 
