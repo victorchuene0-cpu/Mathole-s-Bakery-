@@ -692,6 +692,126 @@
   background: none !important;
 }
       
+      /* Review Section Styling */
+#reviews-section {
+  background: #f9f9fc;
+  padding: 40px 20px;
+  max-width: 800px;
+  margin: 0 auto 60px auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+#reviews-section h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #4a235a;
+}
+
+.reviews-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.reviews-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.review-card {
+  background: white;
+  padding: 20px;
+  border-radius: 6px;
+  border: 1px solid #e0e0e5;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.review-card .star-display {
+  font-size: 1.2em;
+  color: gold;
+  margin-bottom: 8px;
+}
+
+.review-card .review-text {
+  font-style: normal;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.review-card .review-author {
+  font-weight: bold;
+  color: #4a235a;
+  font-size: 0.9em;
+}
+
+/* Form Styling */
+.review-form {
+  background: white;
+  padding: 20px;
+  border-radius: 6px;
+  border: 1px solid #e0e0e5;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #4a235a;
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: inherit;
+}
+
+.rating-group {
+  display: flex;
+  align-items: center;
+}
+
+.star-input {
+  display: flex;
+  gap: 5px;
+}
+
+.star-input input[type="radio"] {
+  display: none;
+}
+
+.star-input label {
+  font-size: 1.5em;
+  color: lightgray;
+  cursor: pointer;
+}
+
+.star-input input[type="radio"]:checked ~ label,
+.star-input label:hover,
+.star-input label:hover ~ label {
+  color: gold;
+}
+
+.review-form button {
+  background: #ff66b2;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.review-form button:hover {
+  background: #e655a3;
+  }
       
   </style>
 </head>
@@ -782,30 +902,42 @@
   </div>
   <a href="#reviews" class="btn-secondary">Read All Reviews</a>
     </section>
-    <section id="reviews">
-    <h2>Leave a Review</h2>
-    <form id="reviewForm">
-      <label for="name">Name:</label>
-      <input type="text" id="name" name="name" />
+    <section id="reviews-section">
+  <h2>Leave a Review</h2>
+  <div class="reviews-wrapper">
 
-      <label for="reviewText">Your Review:</label>
-      <textarea id="reviewText" name="reviewText" rows="6" cols="60" required></textarea>
+    <div class="reviews-cards" id="reviewsList">
+      <!-- Review cards will go here via JS -->
+    </div>
 
-      <div class="star-rating" aria-label="Star Rating">
-        <input type="radio" id="star5" name="rating" value="5" required /><label for="star5" title="5 stars">★</label>
-        <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 stars">★</label>
-        <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 stars">★</label>
-        <input type="radio" id="star2" name="rating" value="2" /><label for "star2" title="2 stars">★</label>
-        <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 star">★</label>
+    <form id="reviewForm" class="review-form">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" placeholder="Your name (optional)">
+      </div>
+
+      <div class="form-group">
+        <label for="reviewText">Your Review</label>
+        <textarea id="reviewText" name="reviewText" rows="4" placeholder="Write your review here…" required></textarea>
+      </div>
+
+      <div class="form-group rating-group">
+        <label>Your Rating</label>
+        <div class="star-input">
+          <input type="radio" id="star5" name="rating" value="5" required><label for="star5">★</label>
+          <input type="radio" id="star4" name="rating" value="4"><label for="star4">★</label>
+          <input type="radio" id="star3" name="rating" value="3"><label for="star3">★</label>
+          <input type="radio" id="star2" name="rating" value="2"><label for="star2">★</label>
+          <input type="radio" id="star1" name="rating" value="1"><label for="star1">★</label>
+        </div>
       </div>
 
       <button type="submit">Submit Review</button>
-      <button class="delete-review">Delete</button>
-      
     </form>
 
-    <div id="reviewsList" class="reviews"></div>
-  </section>
+  </div>
+    </section>
+  
 
   <input id="scrollBtn" type="button" value="↑ Top" title="Go to top" />
 
@@ -1044,6 +1176,7 @@ document.addEventListener('DOMContentLoaded', renderFeaturedReviews);
 </body>
           </html>
                                                                    
+
 
 
 
