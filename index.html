@@ -534,7 +534,95 @@
     display: block;
   }
 }
+  #featured-reviews {
+  background: #f9f4fb;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  margin: 40px 0;
+}
+
+.review-card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.review-stars {
+  font-size: 1.5em;
+  color: gold;
+}
+
+.review-author {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #4a235a;
+}
+
+.btn-secondary {
+  display: inline-block;
+  color: #4a235a;
+  border: 2px solid #4a235a;
+  padding: 10px 25px;
+  border-radius: 5px;
+  text-decoration: none;
+  margin-top: 20px;
+}
+
+.btn-secondary:hover {
+  background: #4a235a;
+  color: #fff;
+    }
+      #subscribe {
+  background: #f6e3f7;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+#subscribeForm {
+  max-width: 400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#subscribeForm input[type="email"] {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+}
+
+#subscribeForm button {
+  padding: 12px;
+  background: #ff66b2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#subscribeForm button:hover {
+  background: #e655a3;
+}
+
+#subscribeMessage {
+  margin-top: 15px;
+  color: #4a235a;
+}
       
+  
   </style>
 </head>
 <body>
@@ -570,7 +658,7 @@
   <div class="card-container">
 
     <div class="menu-item card">
-      <img src="image/IMG-20251003-WA0006 (5)_111047.jpg" alt="Scones from Mathole's Bakery">
+      <img src="image/IMG-20251003-WA0006 (5)_111047.jpg" alt="Scones from Mathole's Bakery" loading="lazy">
       <div class="menu-item-details">
         <h4>Scones</h4>
         <p>5 Litre — R230</p>
@@ -581,7 +669,7 @@
     </div>
 
     <div class="menu-item card">
-      <img src="image/IMG-20251003-WA0006 (3)_111043.jpg" alt="Biscuits from Mathole's Bakery">
+      <img src="image/IMG-20251003-WA0006 (3)_111043.jpg" alt="Biscuits from Mathole's Bakery" loading="lazy">
       <div class="menu-item-details">
         <h4>Biscuits</h4>
         <p>5 Litre — R360</p>
@@ -591,7 +679,7 @@
     </div>
 
     <div class="menu-item card">
-      <img src="image/IMG-20251003-WA0006 (2)_111048.jpg" alt="Cupcakes from Mathole's Bakery">
+      <img src="image/IMG-20251003-WA0006 (2)_111048.jpg" alt="Cupcakes from Mathole's Bakery" loading="lazy">
       <div class="menu-item-details">
         <h4>Cupcakes</h4>
         <p>5 Litre — R360</p>
@@ -606,7 +694,25 @@
     <p><strong>Note: Prices are subject to changes.</strong></p>
   </section>
 
-  <section id="reviews">
+  
+    <section id="featured-reviews">
+  <h2>What Our Customers Are Saying</h2>
+  <div class="reviews-grid">
+    <!-- These will be replaced / updated by JS -->
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p>“Delicious cupcakes and the scones are amazing!”</p>
+      <p class="review-author">— Thandi M.</p>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★☆</div>
+      <p>“Very fresh biscuits, excellent service.”</p>
+      <p class="review-author">— Kabelo M.</p>
+    </div>
+  </div>
+  <a href="#reviews" class="btn-secondary">Read All Reviews</a>
+    </section>
+    <section id="reviews">
     <h2>Leave a Review</h2>
     <form id="reviewForm">
       <label for="name">Name:</label>
@@ -655,7 +761,16 @@
       <button id="followButton">Follow Us</button>
     </div>
   </section>
-
+<section id="subscribe">
+  <h2>Stay Updated</h2>
+  <p>Subscribe to get special offers and fresh-bake alerts.</p>
+  <form id="subscribeForm">
+    <input type="email" id="subscriberEmail" name="email" placeholder="Your email address" required />
+    <button type="submit">Subscribe</button>
+  </form>
+  <div id="subscribeMessage"></div>
+</section>
+  
   <footer>
     &copy; 2025 Mathole's Bakery | All rights reserved
   </footer>
@@ -799,11 +914,75 @@ const navLinks = document.getElementById('navLinks');
 navToggle.addEventListener('click', () => {
   navLinks.classList.toggle('show');
 });
+    // Retrieve reviews from localStorage, pick top rated, and render
+function getStoredReviews() {
+  const stored = localStorage.getItem('reviews');
+  return stored ? JSON.parse(stored) : [];
+}
+
+function getTopReviews(n = 2) {
+  const reviews = getStoredReviews();
+  reviews.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+  return reviews.slice(0, n);
+}
+
+function renderFeaturedReviews() {
+  const container = document.querySelector('#featured-reviews .reviews-grid');
+  if (!container) return;
+
+  const top = getTopReviews(2);
+  container.innerHTML = ''; // clear default dummy cards
+
+  top.forEach(r => {
+    const card = document.createElement('div');
+    card.className = 'review-card';
+    card.innerHTML = `
+      <div class="review-stars">${'★'.repeat(r.rating) + '☆'.repeat(5 - r.rating)}</div>
+      <p>${r.text}</p>
+      <p class="review-author">— ${r.name || 'Anonymous'}</p>
+    `;
+    container.appendChild(card);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', renderFeaturedReviews);
+    document.getElementById('subscribeForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const email = document.getElementById('subscriberEmail').value;
+  document.getElementById('subscribeMessage').textContent = `Thanks for subscribing, ${email}!`;
+  this.reset();
+});
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Bakery",
+  "name": "Mathole’s Bakery Delicacies",
+  "image": [
+    "https://your-website.com/image/bakery1.jpg",
+    "https://your-website.com/image/bakery2.jpg"
+  ],
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Lebowakgomo Zone F 1839",
+    "addressLocality": "Lebowakgomo",
+    "addressRegion": "Gauteng",
+    "addressCountry": "ZA"
+  },
+  "telephone": "+27 67 820 0669",
+  "url": "https://your-website.com",
+  "openingHours": [
+    "Mo-Su 06:00-20:00"
+  ],
+  "priceRange": "R"
+}
+</script>
+  
     
   </script>
 </body>
           </html>
                                                                    
+
 
 
 
