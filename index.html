@@ -671,7 +671,18 @@
   content: none !important; /* This removes the overlay element */
   }
       
-  
+  .hero {
+  background: linear-gradient(to right, #fbc2eb, #a6c1ee);
+  color: #4a235a;  /* text color — use what you used before */
+  padding: 100px 20px;
+  text-align: center;
+  position: relative;
+}
+
+.hero::after {
+  content: none;  /* remove any overlay if you added one */
+}
+      
   </style>
 </head>
 <body>
@@ -1031,6 +1042,7 @@ document.addEventListener('DOMContentLoaded', renderFeaturedReviews);
 </body>
           </html>
                                                                    
+
 
 
 
