@@ -894,6 +894,26 @@
     }
       @media (min-width: 481px) and (max-width: 1200px) {
 
+  html {
+    font-size: 90%;   /* shrink ALL text and spacing slightly */
+  }
+
+  .card-container {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+
+  .menu-item img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .hero {
+    padding: 60px 20px;
+    font-size: 1.2rem;
+  }
+
+}
+
   h1 {
     font-size: 1.8rem;
   }
@@ -923,7 +943,6 @@
 
 }
 
-    /* Add any other styles that are needed immediately */
   </style>
 
   <!-- Defer the rest of the stylesheet -->
@@ -1363,6 +1382,7 @@ navToggle.addEventListener('click', () => {
 </body>
           </html>
                                                                    
+
 
 
 
