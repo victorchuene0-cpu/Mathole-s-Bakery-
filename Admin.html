@@ -1,39 +1,340 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8" />
   <title>Admin Panel - Mathole Bakery</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #fff5f7;
-      color: #4a235a;
-      max-width: 800px;
-      margin: 20px auto;
+    :root{
+      --bg:#fff5f7; --ink:#4a235a; --accent:#ff66b2; --accent-dark:#e655a3;
     }
-    h1, h2 {
-      text-align: center;
-      color: #ff66b2;
+    html,body{height:100%;margin:0;font-family:Arial,system-ui,-apple-system,Segoe UI,Roboto;}
+    body{background:var(--bg);color:var(--ink);display:flex;align-items:flex-start;justify-content:center;padding:24px;}
+
+    .container { width:100%; max-width:900px; }
+
+    h1{ text-align:center; color:var(--accent); margin:0 0 18px; }
+    .card { background:#fff; border-radius:12px; padding:18px; box-shadow:0 6px 22px rgba(0,0,0,0.08); margin-bottom:18px; }
+
+    label{display:block;margin:8px 0 4px;font-weight:600}
+    input[type="text"], input[type="url"], textarea, select {
+      width:100%; padding:10px;border-radius:8px;border:1px solid #ddd;font-size:1rem;
     }
-    input, select, textarea, button {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border-radius: 6px;
-      border: 1px solid #ccc;
+    textarea{min-height:80px;resize:vertical}
+    .row{display:flex;gap:12px;}
+    .row .col{flex:1}
+
+    button{
+      background:var(--accent); color:#fff; border:0; padding:10px 14px; border-radius:8px; cursor:pointer; font-weight:700;
     }
-    button {
-      background: #ff66b2;
-      color: white;
-      border: none;
-      cursor: pointer;
-      font-weight: bold;
+    button.ghost{background:#fff;color:var(--ink);border:1px solid #eee;font-weight:600}
+    button.danger{background:#f44336}
+    button.small{padding:6px 8px;font-size:.9rem;border-radius:6px}
+
+    .product-card{background:#fff;border-radius:10px;padding:12px;margin-bottom:12px;box-shadow:0 3px 10px rgba(0,0,0,0.04);}
+    .product-meta{display:flex;justify-content:space-between;align-items:center;gap:8px}
+    .product-meta h3{margin:0;font-size:1.05rem;color:var(--ink)}
+    .product-meta .price{font-weight:700;color:var(--accent-dark)}
+
+    .product-image{width:100%;max-height:220px;object-fit:cover;border-radius:8px;margin-top:10px}
+
+    /* Modal overlay for password */
+    .modal-overlay{
+      position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
+      background:rgba(2,6,23,0.45); z-index:9999;
     }
-    button:hover {
-      background: #e655a3;
+    .modal{
+      background:#fff;padding:20px;border-radius:12px;max-width:420px;width:90%; box-shadow:0 8px 30px rgba(0,0,0,0.25);
     }
+    .modal h2{margin:0 0 8px;color:var(--accent)}
+    .modal p{margin:0 0 12px;color:#666}
+
+    /* small responsive */
+    @media (max-width:600px){ .row{flex-direction:column} .product-image{max-height:180px} }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <h1>🍰 Mathole's Bakery — Admin</h1>
+
+    <!-- Admin area (hidden until login passes) -->
+    <div id="adminArea" style="display:none;">
+
+      <div class="card" aria-live="polite">
+        <h2 style="margin-top:0">Add or Edit Product</h2>
+
+        <input type="hidden" id="editIndex" value="">
+
+        <label for="pName">Product name</label>
+        <input id="pName" type="text" placeholder="e.g. Chocolate Cupcakes">
+
+        <div class="row">
+          <div class="col">
+            <label for="pPrice">Price (e.g. R350)</label>
+            <input id="pPrice" type="text" placeholder="Price">
+          </div>
+          <div class="col">
+            <label for="pCategory">Category</label>
+            <select id="pCategory" aria-label="Product category">
+              <option value="">Select category</option>
+              <option>Scones</option>
+              <option>Biscuits</option>
+              <option>Cupcakes</option>
+              <option>Cakes</option>
+              <option>Specials</option>
+              <option>Cookies</option>
+              <option>Custom Orders</option>
+            </select>
+          </div>
+        </div>
+
+        <label for="pImage">Image URL</label>
+        <input id="pImage" type="url" placeholder="https://... or leave blank">
+
+        <label for="pDesc">Short description</label>
+        <textarea id="pDesc" placeholder="Short product description"></textarea>
+
+        <label style="margin-top:8px"><input id="pFeatured" type="checkbox"> Mark as Featured</label>
+
+        <div style="margin-top:12px; display:flex; gap:10px;">
+          <button id="saveBtn">Save Product</button>
+          <button id="clearBtn" class="ghost">Clear</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 style="margin-top:0">Current Products</h2>
+        <div id="productList" aria-live="polite"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Password modal (blocks UI until correct password) -->
+  <div id="pwModal" class="modal-overlay" role="dialog" aria-modal="true">
+    <div class="modal">
+      <h2>Admin Login</h2>
+      <p>Please enter the admin password to manage products.</p>
+      <label for="pwInput" style="display:block;margin-bottom:6px;font-weight:600">Password</label>
+      <input id="pwInput" type="password" placeholder="Enter password" style="width:100%;padding:10px;border-radius:8px;border:1px solid #ddd;margin-bottom:12px">
+      <div style="display:flex;gap:8px;">
+        <button id="pwSubmit">Enter</button>
+        <button id="pwCancel" class="ghost">Cancel</button>
+      </div>
+      <p id="pwMessage" style="color:#b00020;margin-top:8px;display:none"></p>
+    </div>
+  </div>
+
+<script>
+/* ============================
+   Admin modal-based login + full CRUD on localStorage
+   ============================ */
+
+/* CHANGE THIS to your desired admin password (keep secret) */
+const ADMIN_PASSWORD = "Mathole123";
+
+/* Helper: safe JSON read/write */
+function getProducts(){
+  try{ return JSON.parse(localStorage.getItem('products')||'[]') } catch(e){ console.error(e); return []; }
+}
+function saveProducts(arr){ localStorage.setItem('products', JSON.stringify(arr)); }
+
+/* Elements */
+const pwModal = document.getElementById('pwModal');
+const pwInput = document.getElementById('pwInput');
+const pwSubmit = document.getElementById('pwSubmit');
+const pwCancel = document.getElementById('pwCancel');
+const pwMessage = document.getElementById('pwMessage');
+
+const adminArea = document.getElementById('adminArea');
+const pName = document.getElementById('pName');
+const pPrice = document.getElementById('pPrice');
+const pImage = document.getElementById('pImage');
+const pDesc = document.getElementById('pDesc');
+const pCategory = document.getElementById('pCategory');
+const pFeatured = document.getElementById('pFeatured');
+const editIndexField = document.getElementById('editIndex');
+
+const saveBtn = document.getElementById('saveBtn');
+const clearBtn = document.getElementById('clearBtn');
+const productList = document.getElementById('productList');
+
+/* Show modal on page load (already visible by markup). Focus input */
+pwInput.focus();
+
+/* Password handlers */
+pwSubmit.addEventListener('click', attemptLogin);
+pwInput.addEventListener('keydown', function(e){ if (e.key === 'Enter') attemptLogin(); });
+
+pwCancel.addEventListener('click', function(){
+  // If they cancel, keep modal open but clear input
+  pwInput.value = '';
+  pwMessage.style.display = 'none';
+});
+
+/* Attempt login function */
+function attemptLogin(){
+  const val = pwInput.value;
+  if (val === ADMIN_PASSWORD) {
+    // success -> hide modal, show admin UI
+    pwModal.style.display = 'none';
+    adminArea.style.display = 'block';
+    pwInput.value = '';
+    loadProducts();
+  } else {
+    // wrong password
+    pwMessage.style.display = 'block';
+    pwMessage.textContent = 'Incorrect password. Please try again.';
+    pwInput.value = '';
+    pwInput.focus();
+  }
+}
+
+/* Save product (create or update) */
+saveBtn.addEventListener('click', function(){
+  const name = pName.value.trim();
+  const price = pPrice.value.trim();
+  const image = pImage.value.trim();
+  const desc = pDesc.value.trim();
+  const category = pCategory.value;
+  const featured = pFeatured.checked;
+
+  if (!name || !price || !category) {
+    alert('Please provide at least name, price and category.');
+    return;
+  }
+
+  let products = getProducts();
+
+  if (featured) {
+    // only one featured allowed: clear others
+    products = products.map(p => ({...p, featured:false}));
+  }
+
+  const newProduct = { name, price, image, desc, category, featured };
+
+  const editIndex = editIndexField.value;
+  if (editIndex === '') {
+    // new
+    products.push(newProduct);
+  } else {
+    products[Number(editIndex)] = newProduct;
+    editIndexField.value = '';
+  }
+
+  saveProducts(products);
+  loadProducts();
+  clearForm();
+});
+
+/* Clear form */
+clearBtn.addEventListener('click', function(){
+  clearForm();
+});
+
+function clearForm(){
+  editIndexField.value = '';
+  pName.value=''; pPrice.value=''; pImage.value=''; pDesc.value=''; pCategory.value=''; pFeatured.checked=false;
+}
+
+/* Load and render products */
+function loadProducts(){
+  const products = getProducts();
+  productList.innerHTML = '';
+
+  if (products.length === 0) {
+    productList.innerHTML = '<p style="color:#666">No products yet. Add one above.</p>';
+    return;
+  }
+
+  products.forEach((p, i) => {
+    const div = document.createElement('div');
+    div.className = 'product-card';
+
+    let featuredBadge = p.featured ? '<span style="color:var(--accent);font-weight:700"> Featured</span>' : '';
+
+    div.innerHTML = `
+      <div class="product-meta">
+        <h3>${escapeHtml(p.name)} ${featuredBadge}</h3>
+        <div class="price">${escapeHtml(p.price)}</div>
+      </div>
+      <div><small style="color:#666">Category: ${escapeHtml(p.category)}</small></div>
+      <p style="margin-top:8px">${escapeHtml(p.desc)}</p>
+      ${p.image ? `<img src="${escapeHtml(p.image)}" class="product-image" alt="${escapeHtml(p.name)}">` : ''}
+      <div style="margin-top:10px;display:flex;gap:8px;">
+        <button class="small" onclick="editProduct(${i})">Edit</button>
+        <button class="small ghost" onclick="duplicateProduct(${i})">Duplicate</button>
+        <button class="small danger" onclick="confirmDelete(${i})">Delete</button>
+      </div>
+    `;
+    productList.appendChild(div);
+  });
+}
+
+/* Edit product */
+function editProduct(index){
+  const p = getProducts()[index];
+  if (!p) return;
+  pName.value = p.name;
+  pPrice.value = p.price;
+  pImage.value = p.image;
+  pDesc.value = p.desc;
+  pCategory.value = p.category;
+  pFeatured.checked = !!p.featured;
+  editIndexField.value = String(index);
+
+  // scroll to top & focus
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  pName.focus();
+}
+
+/* Duplicate product (convenience) */
+function duplicateProduct(index){
+  const products = getProducts();
+  const p = products[index];
+  if (!p) return;
+  const clone = {...p, name: p.name + ' (copy)'};
+  products.push(clone);
+  saveProducts(products);
+  loadProducts();
+}
+
+/* Confirm delete */
+function confirmDelete(index){
+  const ok = confirm('Delete this product? This cannot be undone.');
+  if (!ok) return;
+  deleteProduct(index);
+}
+
+/* Delete product */
+function deleteProduct(index){
+  const products = getProducts();
+  products.splice(index, 1);
+  saveProducts(products);
+  loadProducts();
+}
+
+/* Escape user strings for simple safe insertion */
+function escapeHtml(str){
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#039;');
+}
+
+/* If admin logged-in state should persist across reload in this simple approach:
+   we could store a small "isAdmin" flag in sessionStorage to keep modal closed for that session.
+   (Not implemented to keep it strict—modal appears each visit.) */
+
+/* Auto-focus the password box when page loads */
+pwInput.focus();
+</script>
+</body>
+</html>
     .product-card {
       background: white;
       padding: 15px;
