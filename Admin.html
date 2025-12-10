@@ -1,65 +1,650 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Panel - Mathole Bakery</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --bg:#fff5f7; --ink:#4a235a; --accent:#ff66b2; --accent-dark:#e655a3;
+    :root {
+      --primary: #8b5cf6;
+      --primary-dark: #7c3aed;
+      --secondary: #f8fafc;
+      --accent: #10b981;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --text-primary: #1e293b;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --border: #e2e8f0;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+      --radius: 12px;
     }
-    html,body{height:100%;margin:0;font-family:Arial,system-ui,-apple-system,Segoe UI,Roboto;}
-    body{background:var(--bg);color:var(--ink);display:flex;align-items:flex-start;justify-content:center;padding:24px;}
 
-    .container { width:100%; max-width:900px; }
-
-    h1{ text-align:center; color:var(--accent); margin:0 0 18px; }
-    .card { background:#fff; border-radius:12px; padding:18px; box-shadow:0 6px 22px rgba(0,0,0,0.08); margin-bottom:18px; }
-
-    label{display:block;margin:8px 0 4px;font-weight:600}
-    input[type="text"], input[type="url"], textarea, select {
-      width:100%; padding:10px;border-radius:8px;border:1px solid #ddd;font-size:1rem;
+    * {
+      box-sizing: border-box;
     }
-    textarea{min-height:80px;resize:vertical}
-    .row{display:flex;gap:12px;}
-    .row .col{flex:1}
 
-    button{
-      background:var(--accent); color:#fff; border:0; padding:10px 14px; border-radius:8px; cursor:pointer; font-weight:700;
+    body {
+      margin: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      min-height: 100vh;
+      color: var(--text-primary);
+      line-height: 1.6;
     }
-    button.ghost{background:#fff;color:var(--ink);border:1px solid #eee;font-weight:600}
-    button.danger{background:#f44336}
-    button.small{padding:6px 8px;font-size:.9rem;border-radius:6px}
 
-    .product-card{background:#fff;border-radius:10px;padding:12px;margin-bottom:12px;box-shadow:0 3px 10px rgba(0,0,0,0.04);}
-    .product-meta{display:flex;justify-content:space-between;align-items:center;gap:8px}
-    .product-meta h3{margin:0;font-size:1.05rem;color:var(--ink)}
-    .product-meta .price{font-weight:700;color:var(--accent-dark)}
-
-    .product-image{width:100%;max-height:220px;object-fit:cover;border-radius:8px;margin-top:10px}
-
-    /* Modal overlay for password */
-    .modal-overlay{
-      position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
-      background:rgba(2,6,23,0.45); z-index:9999;
+    .app-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
-    .modal{
-      background:#fff;padding:20px;border-radius:12px;max-width:420px;width:90%; box-shadow:0 8px 30px rgba(0,0,0,0.25);
-    }
-    .modal h2{margin:0 0 8px;color:var(--accent)}
-    .modal p{margin:0 0 12px;color:#666}
 
-    /* small responsive */
-    @media (max-width:600px){ .row{flex-direction:column} .product-image{max-height:180px} }
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .header h1 {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 0 0 0.5rem 0;
+    }
+
+    .header p {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      margin: 0;
+    }
+
+    .main-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      flex: 1;
+    }
+
+    .card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border);
+      transition: all 0.2s ease;
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-2px);
+    }
+
+    .card h2 {
+      margin: 0 0 1.5rem 0;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 0.875rem 1rem;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: border-color 0.2s ease;
+      background: var(--secondary);
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: white;
+      box-shadow: 0 0 0 3px rgb(139 92 246 / 0.1);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .btn {
+      padding: 0.875rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--text-primary);
+      border: 2px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--secondary);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #dc2626;
+    }
+
+    .btn-small {
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+    }
+
+    .products-list {
+      grid-column: 1 / -1;
+    }
+
+    .product-item {
+      background: var(--secondary);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      border: 1px solid var(--border);
+      transition: all 0.2s ease;
+    }
+
+    .product-item:hover {
+      box-shadow: var(--shadow-md);
+    }
+
+    .product-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+
+    .product-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin: 0;
+      color: var(--text-primary);
+    }
+
+    .product-price {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .product-meta {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .product-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin: 1rem 0;
+    }
+
+    .product-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: var(--accent);
+      color: white;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgb(0 0 0 / 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-content {
+      background: white;
+      padding: 2.5rem;
+      border-radius: var(--radius);
+      max-width: 450px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem 2rem;
+      color: var(--text-muted);
+    }
+
+    .empty-state svg {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+
+    @media (max-width: 768px) {
+      .app-container {
+        padding: 1rem;
+      }
+      
+      .main-content {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      
+      .product-header {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: flex-start;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="app-container">
+    <header class="header">
+      <h1>🍰 Mathole Bakery Admin</h1>
+      <p>Manage your bakery products professionally</p>
+    </header>
 
-    <h1>🍰 Mathole's Bakery — Admin</h1>
+    <!-- Admin Area -->
+    <main id="adminArea" style="display: none;">
+      <div class="main-content">
+        <!-- Add/Edit Product Form -->
+        <div class="card">
+          <h2>📦 Add New Product</h2>
+          
+          <form id="productForm">
+            <input type="hidden" id="editIndex" value="">
+            
+            <div class="form-group">
+              <label for="pName">Product Name *</label>
+              <input id="pName" type="text" placeholder="e.g. Chocolate Cupcakes" required>
+            </div>
 
-    <!-- Admin area (hidden until login passes) -->
-    <div id="adminArea" style="display:none;">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="pPrice">Price (R) *</label>
+                <input id="pPrice" type="text" placeholder="e.g. 350" required>
+              </div>
+              <div class="form-group">
+                <label for="pCategory">Category *</label>
+                <select id="pCategory" required>
+                  <option value="">Select category</option>
+                  <option value="Scones">Scones</option>
+                  <option value="Biscuits">Biscuits</option>
+                  <option value="Cupcakes">Cupcakes</option>
+                  <option value="Cakes">Cakes</option>
+                  <option value="Specials">Specials</option>
+                  <option value="Cookies">Cookies</option>
+                  <option value="Custom Orders">Custom Orders</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="pImage">Image URL</label>
+              <input id="pImage" type="url" placeholder="https://example.com/image.jpg">
+            </div>
+
+            <div class="form-group">
+              <label for="pDesc">Description</label>
+              <textarea id="pDesc" placeholder="Describe your delicious product..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>
+                <input id="pFeatured" type="checkbox">
+                <span style="margin-left: 0.5rem;">Featured Product</span>
+              </label>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">💾 Save Product</button>
+              <button type="button" id="clearBtn" class="btn btn-secondary">🗑️ Clear Form</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Products List -->
+        <div class="card products-list">
+          <h2>📋 Products <span id="productsCount">(0)</span></h2>
+          <div id="productList" aria-live="polite"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Login Modal -->
+  <div id="pwModal" class="modal-overlay" role="dialog" aria-modal="true" style="display: flex;">
+    <div class="modal-content">
+      <h2 style="margin: 0 0 1rem 0; font-size: 1.5rem;">🔐 Admin Login</h2>
+      <p style="color: var(--text-secondary); margin: 0 0 1.5rem 0;">Enter password to access bakery management</p>
+      
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="pwInput">Password</label>
+          <input id="pwInput" type="password" placeholder="Enter admin password" required>
+        </div>
+        
+        <div style="display: flex; gap: 1rem;">
+          <button type="submit" class="btn btn-primary" style="flex: 1;">Enter</button>
+          <button type="button" id="pwCancel" class="btn btn-secondary" style="flex: 1;">Cancel</button>
+        </div>
+        
+        <p id="pwMessage" style="color: var(--danger); margin-top: 1rem; display: none;"></p>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    class BakeryAdmin {
+      constructor() {
+        this.ADMIN_PASSWORD = 'Mathole123'; // Change this password
+        this.init();
+      }
+
+      init() {
+        this.cacheElements();
+        this.bindEvents();
+        this.pwInput.focus();
+      }
+
+      cacheElements() {
+        this.pwModal = document.getElementById('pwModal');
+        this.adminArea = document.getElementById('adminArea');
+        this.pwInput = document.getElementById('pwInput');
+        this.pwSubmit = document.getElementById('loginForm');
+        this.pwCancel = document.getElementById('pwCancel');
+        this.pwMessage = document.getElementById('pwMessage');
+        
+        this.productForm = document.getElementById('productForm');
+        this.clearBtn = document.getElementById('clearBtn');
+        this.productList = document.getElementById('productList');
+        this.productsCount = document.getElementById('productsCount');
+        
+        this.elements = {
+          editIndex: document.getElementById('editIndex'),
+          name: document.getElementById('pName'),
+          price: document.getElementById('pPrice'),
+          image: document.getElementById('pImage'),
+          desc: document.getElementById('pDesc'),
+          category: document.getElementById('pCategory'),
+          featured: document.getElementById('pFeatured')
+        };
+      }
+
+      bindEvents() {
+        this.pwSubmit.addEventListener('submit', (e) => this.handleLogin(e));
+        this.pwCancel?.addEventListener('click', () => this.clearPassword());
+        
+        this.productForm.addEventListener('submit', (e) => this.handleSave(e));
+        this.clearBtn.addEventListener('click', () => this.clearForm());
+      }
+
+      handleLogin(e) {
+        e.preventDefault();
+        const password = this.pwInput.value;
+        
+        if (password === this.ADMIN_PASSWORD) {
+          this.pwModal.style.display = 'none';
+          this.adminArea.style.display = 'block';
+          this.loadProducts();
+        } else {
+          this.showMessage('Incorrect password. Please try again.', 'error');
+          this.pwInput.value = '';
+          this.pwInput.focus();
+        }
+      }
+
+      handleSave(e) {
+        e.preventDefault();
+        const product = this.getFormData();
+        
+        if (!this.validateProduct(product)) return;
+        
+        let products = this.getProducts();
+        
+        if (product.featured) {
+          products = products.map(p => ({ ...p, featured: false }));
+        }
+        
+        const editIndex = this.elements.editIndex.value;
+        if (editIndex === '') {
+          products.push(product);
+        } else {
+          products[parseInt(editIndex)] = product;
+          this.elements.editIndex.value = '';
+        }
+        
+        this.saveProducts(products);
+        this.loadProducts();
+        this.clearForm();
+      }
+
+      getFormData() {
+        return {
+          name: this.elements.name.value.trim(),
+          price: this.elements.price.value.trim(),
+          image: this.elements.image.value.trim(),
+          desc: this.elements.desc.value.trim(),
+          category: this.elements.category.value,
+          featured: this.elements.featured.checked
+        };
+      }
+
+      validateProduct(product) {
+        if (!product.name || !product.price || !product.category) {
+          alert('Please fill in name, price, and category.');
+          return false;
+        }
+        return true;
+      }
+
+      getProducts() {
+        try {
+          return JSON.parse(localStorage.getItem('products') || '[]');
+        } catch {
+          return [];
+        }
+      }
+
+      saveProducts(products) {
+        localStorage.setItem('products', JSON.stringify(products));
+      }
+
+      loadProducts() {
+        const products = this.getProducts();
+        this.productsCount.textContent = `(${products.length})`;
+        
+        if (products.length === 0) {
+          this.productList.innerHTML = `
+            <div class="empty-state">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-4L4 7m8 4v10M4 7v10l8 4"></path>
+              </svg>
+              <h3>No products yet</h3>
+              <p>Add your first bakery product above to get started!</p>
+            </div>
+          `;
+          return;
+        }
+
+        this.productList.innerHTML = products.map((product, index) => this.renderProduct(product, index)).join('');
+      }
+
+      renderProduct(product, index) {
+        const featuredBadge = product.featured ? '<span class="badge">⭐ Featured</span>' : '';
+        const imageHtml = product.image ? 
+          `<img src="${this.escapeHtml(product.image)}" alt="${this.escapeHtml(product.name)}" class="product-image" onerror="this.style.display='none'">` : '';
+
+        return `
+          <div class="product-item">
+            <div class="product-header">
+              <div>
+                <h3 class="product-title">${this.escapeHtml(product.name)}${featuredBadge}</h3>
+                <div class="product-meta">
+                  <span>Category: ${this.escapeHtml(product.category)}</span>
+                </div>
+              </div>
+              <div class="product-price">${this.escapeHtml(product.price)}</div>
+            </div>
+            ${imageHtml}
+            <p style="margin: 1rem 0; color: var(--text-primary);">${this.escapeHtml(product.desc)}</p>
+            <div class="product-actions">
+              <button class="btn btn-primary btn-small" onclick="admin.editProduct(${index})">✏️ Edit</button>
+              <button class="btn btn-secondary btn-small" onclick="admin.duplicateProduct(${index})">📋 Duplicate</button>
+              <button class="btn btn-danger btn-small" onclick="admin.deleteProduct(${index})">🗑️ Delete</button>
+            </div>
+          </div>
+        `;
+      }
+
+      editProduct(index) {
+        const products = this.getProducts();
+        const product = products[index];
+        if (!product) return;
+
+        Object.keys(this.elements).forEach(key => {
+          if (product[key]) this.elements[key].value = product[key];
+        });
+        this.elements.featured.checked = !!product.featured;
+        this.elements.editIndex.value = index;
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        this.elements.name.focus();
+      }
+
+      duplicateProduct(index) {
+        const products = this.getProducts();
+        const original = products[index];
+        if (!original) return;
+
+        const duplicate = { ...original, name: `${original.name} (Copy)` };
+        products.push(duplicate);
+        this.saveProducts(products);
+        this.loadProducts();
+      }
+
+      deleteProduct(index) {
+        if (!confirm('Delete this product permanently?')) return;
+        
+        const products = this.getProducts();
+        products.splice(index, 1);
+        this.saveProducts(products);
+        this.loadProducts();
+      }
+
+      clearForm() {
+        this.productForm.reset();
+        this.elements.editIndex.value = '';
+      }
+
+      clearPassword() {
+        this.pwInput.value = '';
+        this.pwMessage.style.display = 'none';
+      }
+
+      showMessage(text, type = 'info') {
+        this.pwMessage.textContent = text;
+        this.pwMessage.style.color = type === 'error' ? 'var(--danger)' : 'var(--accent)';
+        this.pwMessage.style.display = 'block';
+      }
+
+      escapeHtml(str) {
+        if (!str) return '';
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+      }
+    }
+
+    // Initialize app
+    const admin = new BakeryAdmin();
+  </script>
+</body>
+</html>
 
       <div class="card" aria-live="polite">
         <h2 style="margin-top:0">Add or Edit Product</h2>
