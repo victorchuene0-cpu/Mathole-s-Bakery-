@@ -3,85 +3,199 @@
 <head>
   <meta charset="UTF-8">
   <title>Admin Panel - Mathole Bakery</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #ffe6f2;
-      margin: 0;
-      padding: 20px;
+      background: #fff5f7;
       color: #4a235a;
+      max-width: 800px;
+      margin: 20px auto;
     }
-
     h1, h2 {
       text-align: center;
       color: #ff66b2;
     }
-
-    .card {
-      background: white;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      max-width: 600px;
-      margin: 20px auto;
-    }
-
     input, select, textarea, button {
       width: 100%;
-      padding: 12px;
-      margin-top: 10px;
-      border: 1px solid #ccc;
+      padding: 10px;
+      margin: 8px 0;
       border-radius: 6px;
-      font-size: 1rem;
+      border: 1px solid #ccc;
     }
-
     button {
       background: #ff66b2;
       color: white;
+      border: none;
       cursor: pointer;
       font-weight: bold;
     }
     button:hover {
       background: #e655a3;
     }
-
     .product-card {
-      background: #fff;
+      background: white;
       padding: 15px;
       border-radius: 8px;
       margin-top: 15px;
       box-shadow: 0 3px 8px rgba(0,0,0,0.1);
     }
-
-    .delete-btn {
-      background: red;
-      margin-top: 10px;
-    }
-
     .edit-btn {
-      background: #8b3af3;
-      margin-top: 10px;
+      background: #ffc107;
+      margin-top: 5px;
+    }
+    .delete-btn {
+      background: #f44336;
+      margin-top: 5px;
     }
   </style>
 </head>
+
 <body>
 
-<h1>🍰 Admin Panel</h1>
+<h1>Admin Login</h1>
 
-<!-- LOGIN BOX -->
-<div id="loginBox" class="card">
-  <h2>Owner Login</h2>
-  <input type="password" id="adminPassword" placeholder="Enter Password">
+<div id="loginSection">
+  <input type="password" id="adminPass" placeholder="Enter Password">
   <button onclick="login()">Login</button>
 </div>
 
-<!-- ADMIN PANEL -->
 <div id="adminPanel" style="display:none;">
 
-  <div class="card">
-    <h2>Add / Edit Product</h2>
+  <h2>Add / Edit Product</h2>
+
+  <input type="hidden" id="editIndex">
+
+  <input type="text" id="pName" placeholder="Product Name">
+  <input type="text" id="pPrice" placeholder="Price (e.g., R350)">
+  <input type="text" id="pImage" placeholder="Image URL">
+  
+  <select id="pCategory">
+    <option value="">Select Category</option>
+    <option>Scones</option>
+    <option>Biscuits</option>
+    <option>Cupcakes</option>
+    <option>Cakes</option>
+    <option>Specials</option>
+    <option>Cookies</option>
+    <option>Custom Orders</option>
+  </select>
+
+  <textarea id="pDesc" placeholder="Description"></textarea>
+
+  <label>
+    <input type="checkbox" id="pFeatured"> Mark as Featured Product
+  </label>
+
+  <button onclick="saveProduct()">Save Product</button>
+
+  <h2>Current Products</h2>
+  <div id="productList"></div>
+
+</div>
+
+<script>
+const ADMIN_PASSWORD = "Mathole123"; // change password anytime
+
+function login() {
+  const pass = document.getElementById("adminPass").value;
+  if (pass === ADMIN_PASSWORD) {
+    document.getElementById("loginSection").style.display = "none";
+    document.getElementById("adminPanel").style.display = "block";
+    loadProducts();
+  } else {
+    alert("Incorrect password!");
+  }
+}
+
+function getProducts() {
+  return JSON.parse(localStorage.getItem("products") || "[]");
+}
+
+function saveProducts(list) {
+  localStorage.setItem("products", JSON.stringify(list));
+}
+
+function saveProduct() {
+  const name = pName.value.trim();
+  const price = pPrice.value.trim();
+  const image = pImage.value.trim();
+  const desc = pDesc.value.trim();
+  const category = pCategory.value;
+  const featured = pFeatured.checked;
+  const editIndex = document.getElementById("editIndex").value;
+
+  if (!name || !price || !category) {
+    alert("Name, price, and category are required.");
+    return;
+  }
+
+  let products = getProducts();
+  const newProduct = { name, price, image, desc, category, featured };
+
+  if (editIndex === "") {
+    products.push(newProduct);
+  } else {
+    products[editIndex] = newProduct;
+  }
+
+  saveProducts(products);
+  loadProducts();
+
+  pName.value = "";
+  pPrice.value = "";
+  pImage.value = "";
+  pDesc.value = "";
+  pCategory.value = "";
+  pFeatured.checked = false;
+  editIndex.value = "";
+}
+
+function loadProducts() {
+  const products = getProducts();
+  const container = document.getElementById("productList");
+  container.innerHTML = "";
+
+  products.forEach((p, i) => {
+    container.innerHTML += `
+      <div class="product-card">
+        <h3>${p.name}</h3>
+        <p><strong>Price:</strong> ${p.price}</p>
+        <p><strong>Category:</strong> ${p.category}</p>
+        <p><strong>Featured:</strong> ${p.featured ? "Yes" : "No"}</p>
+        <p>${p.desc}</p>
+        <img src="${p.image}" style="max-width:100%; border-radius:6px;margin-top:10px">
+
+        <button class="edit-btn" onclick="editProduct(${i})">Edit</button>
+        <button class="delete-btn" onclick="deleteProduct(${i})">Delete</button>
+      </div>
+    `;
+  });
+}
+
+function editProduct(index) {
+  const p = getProducts()[index];
+
+  pName.value = p.name;
+  pPrice.value = p.price;
+  pImage.value = p.image;
+  pDesc.value = p.desc;
+  pCategory.value = p.category;
+  pFeatured.checked = p.featured;
+  editIndex.value = index;
+}
+
+function deleteProduct(index) {
+  const products = getProducts();
+  products.splice(index, 1);
+  saveProducts(products);
+  loadProducts();
+}
+</script>
+
+</body>
+</html>
 
     <input id="pName" placeholder="Product Name">
     <input id="pPrice" placeholder="Price (e.g., R50)">
