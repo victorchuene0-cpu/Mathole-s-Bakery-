@@ -23,9 +23,7 @@
       --radius: 12px;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -97,9 +95,7 @@
       gap: 0.5rem;
     }
 
-    .form-group {
-      margin-bottom: 1.5rem;
-    }
+    .form-group { margin-bottom: 1.5rem; }
 
     .form-group label {
       display: block;
@@ -184,23 +180,11 @@
       color: var(--primary);
     }
 
-    .btn-danger {
-      background: var(--danger);
-      color: white;
-    }
+    .btn-danger { background: var(--danger); color: white; }
+    .btn-danger:hover { background: #dc2626; }
+    .btn-small { padding: 0.5rem 1rem; font-size: 0.875rem; }
 
-    .btn-danger:hover {
-      background: #dc2626;
-    }
-
-    .btn-small {
-      padding: 0.5rem 1rem;
-      font-size: 0.875rem;
-    }
-
-    .products-list {
-      grid-column: 1 / -1;
-    }
+    .products-list { grid-column: 1 / -1; }
 
     .product-item {
       background: var(--secondary);
@@ -211,9 +195,7 @@
       transition: all 0.2s ease;
     }
 
-    .product-item:hover {
-      box-shadow: var(--shadow-md);
-    }
+    .product-item:hover { box-shadow: var(--shadow-md); }
 
     .product-header {
       display: flex;
@@ -261,6 +243,7 @@
       font-weight: 600;
       background: var(--accent);
       color: white;
+      margin-left: 0.5rem;
     }
 
     /* Modal */
@@ -272,7 +255,8 @@
       align-items: center;
       justify-content: center;
       z-index: 1000;
-      backdrop-filter: blur(4px);
+      backdrop-filter: blur(8px);
+      animation: fadeIn 0.3s ease;
     }
 
     .modal-content {
@@ -284,6 +268,18 @@
       max-height: 90vh;
       overflow-y: auto;
       box-shadow: var(--shadow-lg);
+      border: 2px solid var(--primary);
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
     }
 
     .empty-state {
@@ -300,45 +296,15 @@
     }
 
     @media (max-width: 768px) {
-      .app-container {
-        padding: 1rem;
-      }
-      
-      .main-content {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-      }
-      
-      .form-row {
-        grid-template-columns: 1fr;
-      }
-      
+      .app-container { padding: 1rem; }
+      .main-content { grid-template-columns: 1fr; gap: 1.5rem; }
+      .form-row { grid-template-columns: 1fr; }
       .product-header {
         flex-direction: column;
         gap: 0.5rem;
         align-items: flex-start;
       }
     }
-    .modal-overlay {
-  backdrop-filter: blur(8px);  /* Strong blur effect */
-  animation: fadeIn 0.3s ease; /* Fade animation */
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.modal-content {
-  border: 2px solid var(--primary);  /* Glowing border */
-  animation: slideUp 0.3s ease;
-}
-
-@keyframes slideUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-
   </style>
 </head>
 <body>
@@ -354,10 +320,9 @@
         <!-- Add/Edit Product Form -->
         <div class="card">
           <h2>📦 Add New Product</h2>
-          
           <form id="productForm">
             <input type="hidden" id="editIndex" value="">
-            
+
             <div class="form-group">
               <label for="pName">Product Name *</label>
               <input id="pName" type="text" placeholder="e.g. Chocolate Cupcakes" required>
@@ -416,23 +381,25 @@
     </main>
   </div>
 
-  <!-- Login Modal -->
-  <div id="pwModal" class="modal-overlay" role="dialog" aria-modal="true" style="display: flex;">
+  <!-- Login Modal (only one) -->
+  <div id="pwModal" class="modal-overlay" role="dialog" aria-modal="true">
     <div class="modal-content">
       <h2 style="margin: 0 0 1rem 0; font-size: 1.5rem;">🔐 Admin Login</h2>
-      <p style="color: var(--text-secondary); margin: 0 0 1.5rem 0;">Enter password to access bakery management</p>
-      
+      <p style="color: var(--text-secondary); margin: 0 0 1.5rem 0;">
+        Enter password to access bakery management
+      </p>
+
       <form id="loginForm">
         <div class="form-group">
           <label for="pwInput">Password</label>
           <input id="pwInput" type="password" placeholder="Enter admin password" required>
         </div>
-        
+
         <div style="display: flex; gap: 1rem;">
           <button type="submit" class="btn btn-primary" style="flex: 1;">Enter</button>
           <button type="button" id="pwCancel" class="btn btn-secondary" style="flex: 1;">Cancel</button>
         </div>
-        
+
         <p id="pwMessage" style="color: var(--danger); margin-top: 1rem; display: none;"></p>
       </form>
     </div>
@@ -441,7 +408,7 @@
   <script>
     class BakeryAdmin {
       constructor() {
-        this.ADMIN_PASSWORD = 'Mathole123'; // Change this password
+        this.ADMIN_PASSWORD = 'Mathole123';
         this.init();
       }
 
@@ -455,15 +422,15 @@
         this.pwModal = document.getElementById('pwModal');
         this.adminArea = document.getElementById('adminArea');
         this.pwInput = document.getElementById('pwInput');
-        this.pwSubmit = document.getElementById('loginForm');
+        this.pwForm = document.getElementById('loginForm');
         this.pwCancel = document.getElementById('pwCancel');
         this.pwMessage = document.getElementById('pwMessage');
-        
+
         this.productForm = document.getElementById('productForm');
         this.clearBtn = document.getElementById('clearBtn');
         this.productList = document.getElementById('productList');
         this.productsCount = document.getElementById('productsCount');
-        
+
         this.elements = {
           editIndex: document.getElementById('editIndex'),
           name: document.getElementById('pName'),
@@ -476,17 +443,17 @@
       }
 
       bindEvents() {
-        this.pwSubmit.addEventListener('submit', (e) => this.handleLogin(e));
-        this.pwCancel?.addEventListener('click', () => this.clearPassword());
-        
+        this.pwForm.addEventListener('submit', (e) => this.handleLogin(e));
+        this.pwCancel.addEventListener('click', () => this.clearPassword());
+
         this.productForm.addEventListener('submit', (e) => this.handleSave(e));
         this.clearBtn.addEventListener('click', () => this.clearForm());
       }
 
       handleLogin(e) {
         e.preventDefault();
-        const password = this.pwInput.value;
-        
+        const password = this.pwInput.value.trim();
+
         if (password === this.ADMIN_PASSWORD) {
           this.pwModal.style.display = 'none';
           this.adminArea.style.display = 'block';
@@ -501,14 +468,181 @@
       handleSave(e) {
         e.preventDefault();
         const product = this.getFormData();
-        
         if (!this.validateProduct(product)) return;
-        
+
         let products = this.getProducts();
-        
+
         if (product.featured) {
           products = products.map(p => ({ ...p, featured: false }));
         }
+
+        const editIndex = this.elements.editIndex.value;
+        if (editIndex === '') {
+          products.push(product);
+        } else {
+          products[parseInt(editIndex, 10)] = product;
+          this.elements.editIndex.value = '';
+        }
+
+        this.saveProducts(products);
+        this.loadProducts();
+        this.clearForm();
+      }
+
+      getFormData() {
+        return {
+          name: this.elements.name.value.trim(),
+          price: this.elements.price.value.trim(),
+          image: this.elements.image.value.trim(),
+          desc: this.elements.desc.value.trim(),
+          category: this.elements.category.value,
+          featured: this.elements.featured.checked
+        };
+      }
+
+      validateProduct(product) {
+        if (!product.name || !product.price || !product.category) {
+          alert('Please fill in name, price, and category.');
+          return false;
+        }
+        return true;
+      }
+
+      getProducts() {
+        try {
+          return JSON.parse(localStorage.getItem('products') || '[]');
+        } catch {
+          return [];
+        }
+      }
+
+      saveProducts(products) {
+        localStorage.setItem('products', JSON.stringify(products));
+      }
+
+      loadProducts() {
+        const products = this.getProducts();
+        this.productsCount.textContent = `(${products.length})`;
+
+        if (products.length === 0) {
+          this.productList.innerHTML = `
+            <div class="empty-state">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                  d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-4L4 7m8 4v10M4 7v10l8 4"></path>
+              </svg>
+              <h3>No products yet</h3>
+              <p>Add your first bakery product above to get started!</p>
+            </div>
+          `;
+          return;
+        }
+
+        this.productList.innerHTML = products
+          .map((product, index) => this.renderProduct(product, index))
+          .join('');
+      }
+
+      renderProduct(product, index) {
+        const featuredBadge = product.featured ? '<span class="badge">⭐ Featured</span>' : '';
+        const imageHtml = product.image
+          ? `<img src="${this.escapeHtml(product.image)}"
+                   alt="${this.escapeHtml(product.name)}"
+                   class="product-image"
+                   onerror="this.style.display='none'">`
+          : '';
+
+        return `
+          <div class="product-item">
+            <div class="product-header">
+              <div>
+                <h3 class="product-title">
+                  ${this.escapeHtml(product.name)}${featuredBadge}
+                </h3>
+                <div class="product-meta">
+                  <span>Category: ${this.escapeHtml(product.category)}</span>
+                </div>
+              </div>
+              <div class="product-price">${this.escapeHtml(product.price)}</div>
+            </div>
+            ${imageHtml}
+            <p style="margin: 1rem 0; color: var(--text-primary);">
+              ${this.escapeHtml(product.desc)}
+            </p>
+            <div class="product-actions">
+              <button class="btn btn-primary btn-small" onclick="admin.editProduct(${index})">✏️ Edit</button>
+              <button class="btn btn-secondary btn-small" onclick="admin.duplicateProduct(${index})">📋 Duplicate</button>
+              <button class="btn btn-danger btn-small" onclick="admin.deleteProduct(${index})">🗑️ Delete</button>
+            </div>
+          </div>
+        `;
+      }
+
+      editProduct(index) {
+        const products = this.getProducts();
+        const product = products[index];
+        if (!product) return;
+
+        this.elements.name.value = product.name || '';
+        this.elements.price.value = product.price || '';
+        this.elements.image.value = product.image || '';
+        this.elements.desc.value = product.desc || '';
+        this.elements.category.value = product.category || '';
+        this.elements.featured.checked = !!product.featured;
+        this.elements.editIndex.value = index;
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        this.elements.name.focus();
+      }
+
+      duplicateProduct(index) {
+        const products = this.getProducts();
+        const original = products[index];
+        if (!original) return;
+
+        const duplicate = { ...original, name: `${original.name} (Copy)` };
+        products.push(duplicate);
+        this.saveProducts(products);
+        this.loadProducts();
+      }
+
+      deleteProduct(index) {
+        if (!confirm('Delete this product permanently?')) return;
+        const products = this.getProducts();
+        products.splice(index, 1);
+        this.saveProducts(products);
+        this.loadProducts();
+      }
+
+      clearForm() {
+        this.productForm.reset();
+        this.elements.editIndex.value = '';
+      }
+
+      clearPassword() {
+        this.pwInput.value = '';
+        this.pwMessage.style.display = 'none';
+      }
+
+      showMessage(text, type = 'info') {
+        this.pwMessage.textContent = text;
+        this.pwMessage.style.color =
+          type === 'error' ? 'var(--danger)' : 'var(--accent)';
+        this.pwMessage.style.display = 'block';
+      }
+
+      escapeHtml(str) {
+        if (!str) return '';
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+      }
+    }
+
+    const admin = new BakeryAdmin();
+  </script>
+</body>
+</html>
         
         const editIndex = this.elements.editIndex.value;
         if (editIndex === '') {
