@@ -3,1298 +3,174 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Panel - Mathole Bakery</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>Mathole Bakery Admin</title>
+
   <style>
     :root {
-      --primary: #8b5cf6;
-      --primary-dark: #7c3aed;
-      --secondary: #f8fafc;
-      --accent: #10b981;
-      --danger: #ef4444;
-      --warning: #f59e0b;
-      --text-primary: #1e293b;
-      --text-secondary: #64748b;
-      --text-muted: #94a3b8;
-      --border: #e2e8f0;
-      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-      --radius: 12px;
+      --pink: #f8c7d0;
+      --pink-dark: #e4a9b7;
+      --gold: #e8d3a8;
+      --text: #4a3b3b;
+      --light: #fff7f9;
+      --border: #e8d3d8;
+      --radius: 14px;
+      --shadow: 0 6px 18px rgba(0,0,0,0.08);
     }
-
-    * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-      min-height: 100vh;
-      color: var(--text-primary);
-      line-height: 1.6;
+      font-family: "Inter", sans-serif;
+      background: var(--light);
+      color: var(--text);
     }
 
-    .app-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 20px 15px;
     }
 
-    .header {
+    h1 {
       text-align: center;
-      margin-bottom: 3rem;
+      font-size: 2rem;
+      color: var(--pink-dark);
+      margin-bottom: 10px;
     }
 
-    .header h1 {
-      font-size: clamp(1.75rem, 4vw, 2.5rem);
-      font-weight: 700;
-      background: linear-gradient(135deg, var(--primary), var(--accent));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin: 0 0 0.5rem 0;
+    h2 {
+      font-size: 1.4rem;
+      margin-bottom: 12px;
+      color: var(--pink-dark);
     }
 
-    .header p {
-      color: var(--text-secondary);
-      font-size: 1.1rem;
-      margin: 0;
-    }
-
-    .main-content {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      flex: 1;
-    }
-
+    /* Card */
     .card {
       background: white;
+      padding: 20px;
       border-radius: var(--radius);
-      padding: 2rem;
-      box-shadow: var(--shadow-md);
+      box-shadow: var(--shadow);
       border: 1px solid var(--border);
-      transition: all 0.2s ease;
+      margin-bottom: 25px;
     }
 
-    .card:hover {
-      box-shadow: var(--shadow-lg);
-      transform: translateY(-2px);
-    }
-
-    .card h2 {
-      margin: 0 0 1.5rem 0;
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: var(--text-primary);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .form-group { margin-bottom: 1.5rem; }
-
-    .form-group label {
+    label {
       display: block;
-      font-weight: 500;
-      color: var(--text-primary);
-      margin-bottom: 0.5rem;
-      font-size: 0.95rem;
+      margin-bottom: 6px;
+      font-weight: 600;
     }
 
-    .form-group input,
-    .form-group textarea,
-    .form-group select {
+    input, textarea, select {
       width: 100%;
-      padding: 0.875rem 1rem;
-      border: 2px solid var(--border);
-      border-radius: 8px;
+      padding: 12px;
       font-size: 1rem;
-      font-family: inherit;
-      transition: border-color 0.2s ease;
-      background
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      flex: 1;
-    }
-
-    .card {
-      background: white;
       border-radius: var(--radius);
-      padding: 2rem;
-      box-shadow: var(--shadow-md);
       border: 1px solid var(--border);
-      transition: all 0.2s ease;
+      margin-bottom: 15px;
+      background: #fff;
     }
 
-    .card:hover {
-      box-shadow: var(--shadow-lg);
-      transform: translateY(-2px);
-    }
+    textarea { resize: vertical; }
 
-    .card h2 {
-      margin: 0 0 1.5rem 0;
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: var(--text-primary);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .form-group { margin-bottom: 1.5rem; }
-
-    .form-group label {
-      display: block;
-      font-weight: 500;
-      color: var(--text-primary);
-      margin-bottom: 0.5rem;
-      font-size: 0.95rem;
-    }
-
-    .form-group input,
-    .form-group textarea,
-    .form-group select {
-      width: 100%;
-      padding: 0.875rem 1rem;
-      border: 2px solid var(--border);
-      border-radius: 8px;
-      font-size: 1rem;
-      font-family: inherit;
-      transition: border-color 0.2s ease;
-      background: var(--secondary);
-    }
-
-    .form-group input:focus,
-    .form-group textarea:focus,
-    .form-group select:focus {
-      outline: none;
-      border-color: var(--primary);
-      background: white;
-      box-shadow: 0 0 0 3px rgb(139 92 246 / 0.1);
-    }
-
-    .form-group textarea {
-      resize: vertical;
-      min-height: 100px;
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
-
-    .form-actions {
-      display: flex;
-      gap: 1rem;
-      margin-top: 1.5rem;
-    }
-
-    .btn {
-      padding: 0.875rem 1.5rem;
+    button {
+      background: var(--pink);
       border: none;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      text-decoration: none;
-    }
-
-    .btn-primary {
-      background: var(--primary);
-      color: white;
-    }
-
-    .btn-primary:hover {
-      background: var(--primary-dark);
-      transform: translateY(-1px);
-    }
-
-    .btn-secondary {
-      background: white;
-      color: var(--text-primary);
-      border: 2px solid var(--border);
-    }
-
-    .btn-secondary:hover {
-      background: var(--secondary);
-      border-color: var(--primary);
-      color: var(--primary);
-    }
-
-    .btn-danger { background: var(--danger); color: white; }
-    .btn-danger:hover { background: #dc2626; }
-    .btn-small { padding: 0.5rem 1rem; font-size: 0.875rem; }
-
-    .products-list { grid-column: 1 / -1; }
-
-    .product-item {
-      background: var(--secondary);
+      padding: 12px 20px;
       border-radius: var(--radius);
-      padding: 1.5rem;
-      margin-bottom: 1rem;
-      border: 1px solid var(--border);
-      transition: all 0.2s ease;
-    }
-
-    .product-item:hover { box-shadow: var(--shadow-md); }
-
-    .product-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 1rem;
-    }
-
-    .product-title {
-      font-size: 1.125rem;
+      font-size: 1rem;
+      cursor: pointer;
       font-weight: 600;
-      margin: 0;
-      color: var(--text-primary);
-    }
-
-    .product-price {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--accent);
-    }
-
-    .product-meta {
-      color: var(--text-secondary);
-      font-size: 0.875rem;
-      margin-bottom: 0.75rem;
-    }
-
-    .product-image {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 8px;
-      margin: 1rem 0;
-    }
-
-    .product-actions {
-      display: flex;
-      gap: 0.5rem;
-    }
-
-    .badge {
-      padding: 0.25rem 0.75rem;
-      border-radius: 9999px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      background: var(--accent);
       color: white;
-      margin-left: 0.5rem;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: var(--pink-dark);
+    }
+
+    .danger {
+      background: #e57373;
+    }
+
+    .danger:hover {
+      background: #d9534f;
+    }
+
+    .small-btn {
+      padding: 8px 14px;
+      font-size: 0.9rem;
+    }
+
+    .product-card {
+      background: var(--light);
+      padding: 15px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      margin-bottom: 15px;
+    }
+
+    .product-card img {
+      width: 100%;
+      border-radius: var(--radius);
+      margin-top: 10px;
     }
 
     /* Modal */
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgb(0 0 0 / 0.5);
+      background: rgba(0,0,0,0.5);
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 1000;
-      backdrop-filter: blur(8px);
-      animation: fadeIn 0.3s ease;
+      backdrop-filter: blur(4px);
+      z-index: 999;
     }
 
     .modal-content {
       background: white;
-      padding: 2.5rem;
+      padding: 25px;
       border-radius: var(--radius);
-      max-width: 450px;
       width: 90%;
-      max-height: 90vh;
-      overflow-y: auto;
-      box-shadow: var(--shadow-lg);
-      border: 2px solid var(--primary);
-      animation: slideUp 0.3s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @keyframes slideUp {
-      from { transform: translateY(20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-
-    .empty-state {
-      text-align: center;
-      padding: 3rem 2rem;
-      color: var(--text-muted);
-    }
-
-    .empty-state svg {
-      width: 64px;
-      height: 64px;
-      margin-bottom: 1rem;
-      opacity: 0.5;
-    }
-
-    @media (max-width: 768px) {
-      .app-container { padding: 1rem; }
-      .main-content { grid-template-columns: 1fr; gap: 1.5rem; }
-      .form-row { grid-template-columns: 1fr; }
-      .product-header {
-        flex-direction: column;
-        gap: 0.5rem;
-        align-items: flex-start;
-      }
-    }
-  </style>
-</head>
-<body>
-  <div class="app-container">
-    <header class="header">
-      <h1>🍰 Mathole Bakery Admin</h1>
-      <p>Manage your bakery products professionally</p>
-    </header>
-
-    <!-- Admin Area -->
-    <main id="adminArea" style="display: none;">
-      <div class="main-content">
-        <!-- Add/Edit Product Form -->
-        <div class="card">
-          <h2>📦 Add New Product</h2>
-          <form id="productForm">
-            <input type="hidden" id="editIndex" value="">
-
-            <div class="form-group">
-              <label for="pName">Product Name *</label>
-              <input id="pName" type="text" placeholder="e.g. Chocolate Cupcakes" required>
-            </div>
-
-            <div class="form-row">
-              <div class="form-group">
-                <label for="pPrice">Price (R) *</label>
-                <input id="pPrice" type="text" placeholder="e.g. 350" required>
-              </div>
-              <div class="form-group">
-                <label for="pCategory">Category *</label>
-                <select id="pCategory" required>
-                  <option value="">Select category</option>
-                  <option value="Scones">Scones</option>
-                  <option value="Biscuits">Biscuits</option>
-                  <option value="Cupcakes">Cupcakes</option>
-                  <option value="Cakes">Cakes</option>
-                  <option value="Specials">Specials</option>
-                  <option value="Cookies">Cookies</option>
-                  <option value="Custom Orders">Custom Orders</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="pImage">Image URL</label>
-              <input id="pImage" type="url" placeholder="https://example.com/image.jpg">
-            </div>
-
-            <div class="form-group">
-              <label for="pDesc">Description</label>
-              <textarea id="pDesc" placeholder="Describe your delicious product..."></textarea>
-            </div>
-
-            <div class="form-group">
-              <label>
-                <input id="pFeatured" type="checkbox">
-                <span style="margin-left: 0.5rem;">Featured Product</span>
-              </label>
-            </div>
-
-            <div class="form-actions">
-              <button type="submit" class="btn btn-primary">💾 Save Product</button>
-              <button type="button" id="clearBtn" class="btn btn-secondary">🗑️ Clear Form</button>
-            </div>
-          </form>
-        </div>
-
-        <!-- Products List -->
-        <div class="card products-list">
-          <h2>📋 Products <span id="productsCount">(0)</span></h2>
-          <div id="productList" aria-live="polite"></div>
-        </div>
-      </div>
-    </main>
-  </div>
-
-  <!-- Login Modal (only one) -->
-  <div id="pwModal" class="modal-overlay" role="dialog" aria-modal="true">
-    <div class="modal-content">
-      <h2 style="margin: 0 0 1rem 0; font-size: 1.5rem;">🔐 Admin Login</h2>
-      <p style="color: var(--text-secondary); margin: 0 0 1.5rem 0;">
-        Enter password to access bakery management
-      </p>
-
-      <form id="loginForm">
-        <div class="form-group">
-          <label for="pwInput">Password</label>
-          <input id="pwInput" type="password" placeholder="Enter admin password" required>
-        </div>
-
-        <div style="display: flex; gap: 1rem;">
-          <button type="submit" class="btn btn-primary" style="flex: 1;">Enter</button>
-          <button type="button" id="pwCancel" class="btn btn-secondary" style="flex: 1;">Cancel</button>
-        </div>
-
-        <p id="pwMessage" style="color: var(--danger); margin-top: 1rem; display: none;"></p>
-      </form>
-    </div>
-  </div>
-
-  <script>
-    class BakeryAdmin {
-      constructor() {
-        this.ADMIN_PASSWORD = 'Mathole123';
-        this.init();
-      }
-
-      init() {
-        this.cacheElements();
-        this.bindEvents();
-        this.pwInput.focus();
-      }
-
-      cacheElements() {
-        this.pwModal = document.getElementById('pwModal');
-        this.adminArea = document.getElementById('adminArea');
-        this.pwInput = document.getElementById('pwInput');
-        this.pwForm = document.getElementById('loginForm');
-        this.pwCancel = document.getElementById('pwCancel');
-        this.pwMessage = document.getElementById('pwMessage');
-
-        this.productForm = document.getElementById('productForm');
-        this.clearBtn = document.getElementById('clearBtn');
-        this.productList = document.getElementById('productList');
-        this.productsCount = document.getElementById('productsCount');
-
-        this.elements = {
-          editIndex: document.getElementById('editIndex'),
-          name: document.getElementById('pName'),
-          price: document.getElementById('pPrice'),
-          image: document.getElementById('pImage'),
-          desc: document.getElementById('pDesc'),
-          category: document.getElementById('pCategory'),
-          featured: document.getElementById('pFeatured')
-        };
-      }
-
-      bindEvents() {
-        this.pwForm.addEventListener('submit', (e) => this.handleLogin(e));
-        this.pwCancel.addEventListener('click', () => this.clearPassword());
-
-        this.productForm.addEventListener('submit', (e) => this.handleSave(e));
-        this.clearBtn.addEventListener('click', () => this.clearForm());
-      }
-
-      handleLogin(e) {
-        e.preventDefault();
-        const password = this.pwInput.value.trim();
-
-        if (password === this.ADMIN_PASSWORD) {
-          this.pwModal.style.display = 'none';
-          this.adminArea.style.display = 'block';
-          this.loadProducts();
-        } else {
-          this.showMessage('Incorrect password. Please try again.', 'error');
-          this.pwInput.value = '';
-          this.pwInput.focus();
-        }
-      }
-
-      handleSave(e) {
-        e.preventDefault();
-        const product = this.getFormData();
-        if (!this.validateProduct(product)) return;
-
-        let products = this.getProducts();
-
-        if (product.featured) {
-          products = products.map(p => ({ ...p, featured: false }));
-        }
-
-        const editIndex = this.elements.editIndex.value;
-        if (editIndex === '') {
-          products.push(product);
-        } else {
-          products[parseInt(editIndex, 10)] = product;
-          this.elements.editIndex.value = '';
-        }
-
-        this.saveProducts(products);
-        this.loadProducts();
-        this.clearForm();
-      }
-
-      getFormData() {
-        return {
-          name: this.elements.name.value.trim(),
-          price: this.elements.price.value.trim(),
-          image: this.elements.image.value.trim(),
-          desc: this.elements.desc.value.trim(),
-          category: this.elements.category.value,
-          featured: this.elements.featured.checked
-        };
-      }
-
-      validateProduct(product) {
-        if (!product.name || !product.price || !product.category) {
-          alert('Please fill in name, price, and category.');
-          return false;
-        }
-        return true;
-      }
-
-      getProducts() {
-        try {
-          return JSON.parse(localStorage.getItem('products') || '[]');
-        } catch {
-          return [];
-        }
-      }
-
-      saveProducts(products) {
-        localStorage.setItem('products', JSON.stringify(products));
-      }
-
-      loadProducts() {
-        const products = this.getProducts();
-        this.productsCount.textContent = `(${products.length})`;
-
-        if (products.length === 0) {
-          this.productList.innerHTML = `
-            <div class="empty-state">
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                  d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-4L4 7m8 4v10M4 7v10l8 4"></path>
-              </svg>
-              <h3>No products yet</h3>
-              <p>Add your first bakery product above to get started!</p>
-            </div>
-          `;
-          return;
-        }
-
-        this.productList.innerHTML = products
-          .map((product, index) => this.renderProduct(product, index))
-          .join('');
-      }
-
-      renderProduct(product, index) {
-        const featuredBadge = product.featured ? '<span class="badge">⭐ Featured</span>' : '';
-        const imageHtml = product.image
-          ? `<img src="${this.escapeHtml(product.image)}"
-                   alt="${this.escapeHtml(product.name)}"
-                   class="product-image"
-                   onerror="this.style.display='none'">`
-          : '';
-
-        return `
-          <div class="product-item">
-            <div class="product-header">
-              <div>
-                <h3 class="product-title">
-                  ${this.escapeHtml(product.name)}${featuredBadge}
-                </h3>
-                <div class="product-meta">
-                  <span>Category: ${this.escapeHtml(product.category)}</span>
-                </div>
-              </div>
-              <div class="product-price">${this.escapeHtml(product.price)}</div>
-            </div>
-            ${imageHtml}
-            <p style="margin: 1rem 0; color: var(--text-primary);">
-              ${this.escapeHtml(product.desc)}
-            </p>
-            <div class="product-actions">
-              <button class="btn btn-primary btn-small" onclick="admin.editProduct(${index})">✏️ Edit</button>
-              <button class="btn btn-secondary btn-small" onclick="admin.duplicateProduct(${index})">📋 Duplicate</button>
-              <button class="btn btn-danger btn-small" onclick="admin.deleteProduct(${index})">🗑️ Delete</button>
-            </div>
-          </div>
-        `;
-      }
-
-      editProduct(index) {
-        const products = this.getProducts();
-        const product = products[index];
-        if (!product) return;
-
-        this.elements.name.value = product.name || '';
-        this.elements.price.value = product.price || '';
-        this.elements.image.value = product.image || '';
-        this.elements.desc.value = product.desc || '';
-        this.elements.category.value = product.category || '';
-        this.elements.featured.checked = !!product.featured;
-        this.elements.editIndex.value = index;
-
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        this.elements.name.focus();
-      }
-
-      duplicateProduct(index) {
-        const products = this.getProducts();
-        const original = products[index];
-        if (!original) return;
-
-        const duplicate = { ...original, name: `${original.name} (Copy)` };
-        products.push(duplicate);
-        this.saveProducts(products);
-        this.loadProducts();
-      }
-
-      deleteProduct(index) {
-        if (!confirm('Delete this product permanently?')) return;
-        const products = this.getProducts();
-        products.splice(index, 1);
-        this.saveProducts(products);
-        this.loadProducts();
-      }
-
-      clearForm() {
-        this.productForm.reset();
-        this.elements.editIndex.value = '';
-      }
-
-      clearPassword() {
-        this.pwInput.value = '';
-        this.pwMessage.style.display = 'none';
-      }
-
-      showMessage(text, type = 'info') {
-        this.pwMessage.textContent = text;
-        this.pwMessage.style.color =
-          type === 'error' ? 'var(--danger)' : 'var(--accent)';
-        this.pwMessage.style.display = 'block';
-      }
-
-      escapeHtml(str) {
-        if (!str) return '';
-        const div = document.createElement('div');
-        div.textContent = str;
-        return div.innerHTML;
-      }
-    }
-
-    const admin = new BakeryAdmin();
-  </script>
-</body>
-</html>
-        
-        const editIndex = this.elements.editIndex.value;
-        if (editIndex === '') {
-          products.push(product);
-        } else {
-          products[parseInt(editIndex)] = product;
-          this.elements.editIndex.value = '';
-        }
-        
-        this.saveProducts(products);
-        this.loadProducts();
-        this.clearForm();
-      }
-
-      getFormData() {
-        return {
-          name: this.elements.name.value.trim(),
-          price: this.elements.price.value.trim(),
-          image: this.elements.image.value.trim(),
-          desc: this.elements.desc.value.trim(),
-          category: this.elements.category.value,
-          featured: this.elements.featured.checked
-        };
-      }
-
-      validateProduct(product) {
-        if (!product.name || !product.price || !product.category) {
-          alert('Please fill in name, price, and category.');
-          return false;
-        }
-        return true;
-      }
-
-      getProducts() {
-        try {
-          return JSON.parse(localStorage.getItem('products') || '[]');
-        } catch {
-          return [];
-        }
-      }
-
-      saveProducts(products) {
-        localStorage.setItem('products', JSON.stringify(products));
-      }
-
-      loadProducts() {
-        const products = this.getProducts();
-        this.productsCount.textContent = `(${products.length})`;
-        
-        if (products.length === 0) {
-          this.productList.innerHTML = `
-            <div class="empty-state">
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-4L4 7m8 4v10M4 7v10l8 4"></path>
-              </svg>
-              <h3>No products yet</h3>
-              <p>Add your first bakery product above to get started!</p>
-            </div>
-          `;
-          return;
-        }
-
-        this.productList.innerHTML = products.map((product, index) => this.renderProduct(product, index)).join('');
-      }
-
-      renderProduct(product, index) {
-        const featuredBadge = product.featured ? '<span class="badge">⭐ Featured</span>' : '';
-        const imageHtml = product.image ? 
-          `<img src="${this.escapeHtml(product.image)}" alt="${this.escapeHtml(product.name)}" class="product-image" onerror="this.style.display='none'">` : '';
-
-        return `
-          <div class="product-item">
-            <div class="product-header">
-              <div>
-                <h3 class="product-title">${this.escapeHtml(product.name)}${featuredBadge}</h3>
-                <div class="product-meta">
-                  <span>Category: ${this.escapeHtml(product.category)}</span>
-                </div>
-              </div>
-              <div class="product-price">${this.escapeHtml(product.price)}</div>
-            </div>
-            ${imageHtml}
-            <p style="margin: 1rem 0; color: var(--text-primary);">${this.escapeHtml(product.desc)}</p>
-            <div class="product-actions">
-              <button class="btn btn-primary btn-small" onclick="admin.editProduct(${index})">✏️ Edit</button>
-              <button class="btn btn-secondary btn-small" onclick="admin.duplicateProduct(${index})">📋 Duplicate</button>
-              <button class="btn btn-danger btn-small" onclick="admin.deleteProduct(${index})">🗑️ Delete</button>
-            </div>
-          </div>
-        `;
-      }
-
-      editProduct(index) {
-        const products = this.getProducts();
-        const product = products[index];
-        if (!product) return;
-
-        Object.keys(this.elements).forEach(key => {
-          if (product[key]) this.elements[key].value = product[key];
-        });
-        this.elements.featured.checked = !!product.featured;
-        this.elements.editIndex.value = index;
-
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        this.elements.name.focus();
-      }
-
-      duplicateProduct(index) {
-        const products = this.getProducts();
-        const original = products[index];
-        if (!original) return;
-
-        const duplicate = { ...original, name: `${original.name} (Copy)` };
-        products.push(duplicate);
-        this.saveProducts(products);
-        this.loadProducts();
-      }
-
-      deleteProduct(index) {
-        if (!confirm('Delete this product permanently?')) return;
-        
-        const products = this.getProducts();
-        products.splice(index, 1);
-        this.saveProducts(products);
-        this.loadProducts();
-      }
-
-      clearForm() {
-        this.productForm.reset();
-        this.elements.editIndex.value = '';
-      }
-
-      clearPassword() {
-        this.pwInput.value = '';
-        this.pwMessage.style.display = 'none';
-      }
-
-      showMessage(text, type = 'info') {
-        this.pwMessage.textContent = text;
-        this.pwMessage.style.color = type === 'error' ? 'var(--danger)' : 'var(--accent)';
-        this.pwMessage.style.display = 'block';
-      }
-
-      escapeHtml(str) {
-        if (!str) return '';
-        const div = document.createElement('div');
-        div.textContent = str;
-        return div.innerHTML;
-      }
-    }
-
-    // Initialize app
-    const admin = new BakeryAdmin();
-  </script>
-</body>
-</html>
-
-      <div class="card" aria-live="polite">
-        <h2 style="margin-top:0">Add or Edit Product</h2>
-
-        <input type="hidden" id="editIndex" value="">
-
-        <label for="pName">Product name</label>
-        <input id="pName" type="text" placeholder="e.g. Chocolate Cupcakes">
-
-        <div class="row">
-          <div class="col">
-            <label for="pPrice">Price (e.g. R350)</label>
-            <input id="pPrice" type="text" placeholder="Price">
-          </div>
-          <div class="col">
-            <label for="pCategory">Category</label>
-            <select id="pCategory" aria-label="Product category">
-              <option value="">Select category</option>
-              <option>Scones</option>
-              <option>Biscuits</option>
-              <option>Cupcakes</option>
-              <option>Cakes</option>
-              <option>Specials</option>
-              <option>Cookies</option>
-              <option>Custom Orders</option>
-            </select>
-          </div>
-        </div>
-
-        <label for="pImage">Image URL</label>
-        <input id="pImage" type="url" placeholder="https://... or leave blank">
-
-        <label for="pDesc">Short description</label>
-        <textarea id="pDesc" placeholder="Short product description"></textarea>
-
-        <label style="margin-top:8px"><input id="pFeatured" type="checkbox"> Mark as Featured</label>
-
-        <div style="margin-top:12px; display:flex; gap:10px;">
-          <button id="saveBtn">Save Product</button>
-          <button id="clearBtn" class="ghost">Clear</button>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2 style="margin-top:0">Current Products</h2>
-        <div id="productList" aria-live="polite"></div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- Password modal (blocks UI until correct password) -->
-  <div id="pwModal" class="modal-overlay" role="dialog" aria-modal="true">
-    <div class="modal">
-      <h2>Admin Login</h2>
-      <p>Please enter the admin password to manage products.</p>
-      <label for="pwInput" style="display:block;margin-bottom:6px;font-weight:600">Password</label>
-      <input id="pwInput" type="password" placeholder="Enter password" style="width:100%;padding:10px;border-radius:8px;border:1px solid #ddd;margin-bottom:12px">
-      <div style="display:flex;gap:8px;">
-        <button id="pwSubmit">Enter</button>
-        <button id="pwCancel" class="ghost">Cancel</button>
-      </div>
-      <p id="pwMessage" style="color:#b00020;margin-top:8px;display:none"></p>
-    </div>
-  </div>
-
-<script>
-/* ============================
-   Admin modal-based login + full CRUD on localStorage
-   ============================ */
-
-/* CHANGE THIS to your desired admin password (keep secret) */
-const ADMIN_PASSWORD = "Mathole123";
-
-/* Helper: safe JSON read/write */
-function getProducts(){
-  try{ return JSON.parse(localStorage.getItem('products')||'[]') } catch(e){ console.error(e); return []; }
-}
-function saveProducts(arr){ localStorage.setItem('products', JSON.stringify(arr)); }
-
-/* Elements */
-const pwModal = document.getElementById('pwModal');
-const pwInput = document.getElementById('pwInput');
-const pwSubmit = document.getElementById('pwSubmit');
-const pwCancel = document.getElementById('pwCancel');
-const pwMessage = document.getElementById('pwMessage');
-
-const adminArea = document.getElementById('adminArea');
-const pName = document.getElementById('pName');
-const pPrice = document.getElementById('pPrice');
-const pImage = document.getElementById('pImage');
-const pDesc = document.getElementById('pDesc');
-const pCategory = document.getElementById('pCategory');
-const pFeatured = document.getElementById('pFeatured');
-const editIndexField = document.getElementById('editIndex');
-
-const saveBtn = document.getElementById('saveBtn');
-const clearBtn = document.getElementById('clearBtn');
-const productList = document.getElementById('productList');
-
-/* Show modal on page load (already visible by markup). Focus input */
-pwInput.focus();
-
-/* Password handlers */
-pwSubmit.addEventListener('click', attemptLogin);
-pwInput.addEventListener('keydown', function(e){ if (e.key === 'Enter') attemptLogin(); });
-
-pwCancel.addEventListener('click', function(){
-  // If they cancel, keep modal open but clear input
-  pwInput.value = '';
-  pwMessage.style.display = 'none';
-});
-
-/* Attempt login function */
-function attemptLogin(){
-  const val = pwInput.value;
-  if (val === ADMIN_PASSWORD) {
-    // success -> hide modal, show admin UI
-    pwModal.style.display = 'none';
-    adminArea.style.display = 'block';
-    pwInput.value = '';
-    loadProducts();
-  } else {
-    // wrong password
-    pwMessage.style.display = 'block';
-    pwMessage.textContent = 'Incorrect password. Please try again.';
-    pwInput.value = '';
-    pwInput.focus();
-  }
-}
-
-/* Save product (create or update) */
-saveBtn.addEventListener('click', function(){
-  const name = pName.value.trim();
-  const price = pPrice.value.trim();
-  const image = pImage.value.trim();
-  const desc = pDesc.value.trim();
-  const category = pCategory.value;
-  const featured = pFeatured.checked;
-
-  if (!name || !price || !category) {
-    alert('Please provide at least name, price and category.');
-    return;
-  }
-
-  let products = getProducts();
-
-  if (featured) {
-    // only one featured allowed: clear others
-    products = products.map(p => ({...p, featured:false}));
-  }
-
-  const newProduct = { name, price, image, desc, category, featured };
-
-  const editIndex = editIndexField.value;
-  if (editIndex === '') {
-    // new
-    products.push(newProduct);
-  } else {
-    products[Number(editIndex)] = newProduct;
-    editIndexField.value = '';
-  }
-
-  saveProducts(products);
-  loadProducts();
-  clearForm();
-});
-
-/* Clear form */
-clearBtn.addEventListener('click', function(){
-  clearForm();
-});
-
-function clearForm(){
-  editIndexField.value = '';
-  pName.value=''; pPrice.value=''; pImage.value=''; pDesc.value=''; pCategory.value=''; pFeatured.checked=false;
-}
-
-/* Load and render products */
-function loadProducts(){
-  const products = getProducts();
-  productList.innerHTML = '';
-
-  if (products.length === 0) {
-    productList.innerHTML = '<p style="color:#666">No products yet. Add one above.</p>';
-    return;
-  }
-
-  products.forEach((p, i) => {
-    const div = document.createElement('div');
-    div.className = 'product-card';
-
-    let featuredBadge = p.featured ? '<span style="color:var(--accent);font-weight:700"> Featured</span>' : '';
-
-    div.innerHTML = `
-      <div class="product-meta">
-        <h3>${escapeHtml(p.name)} ${featuredBadge}</h3>
-        <div class="price">${escapeHtml(p.price)}</div>
-      </div>
-      <div><small style="color:#666">Category: ${escapeHtml(p.category)}</small></div>
-      <p style="margin-top:8px">${escapeHtml(p.desc)}</p>
-      ${p.image ? `<img src="${escapeHtml(p.image)}" class="product-image" alt="${escapeHtml(p.name)}">` : ''}
-      <div style="margin-top:10px;display:flex;gap:8px;">
-        <button class="small" onclick="editProduct(${i})">Edit</button>
-        <button class="small ghost" onclick="duplicateProduct(${i})">Duplicate</button>
-        <button class="small danger" onclick="confirmDelete(${i})">Delete</button>
-      </div>
-    `;
-    productList.appendChild(div);
-  });
-}
-
-/* Edit product */
-function editProduct(index){
-  const p = getProducts()[index];
-  if (!p) return;
-  pName.value = p.name;
-  pPrice.value = p.price;
-  pImage.value = p.image;
-  pDesc.value = p.desc;
-  pCategory.value = p.category;
-  pFeatured.checked = !!p.featured;
-  editIndexField.value = String(index);
-
-  // scroll to top & focus
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  pName.focus();
-}
-
-/* Duplicate product (convenience) */
-function duplicateProduct(index){
-  const products = getProducts();
-  const p = products[index];
-  if (!p) return;
-  const clone = {...p, name: p.name + ' (copy)'};
-  products.push(clone);
-  saveProducts(products);
-  loadProducts();
-}
-
-/* Confirm delete */
-function confirmDelete(index){
-  const ok = confirm('Delete this product? This cannot be undone.');
-  if (!ok) return;
-  deleteProduct(index);
-}
-
-/* Delete product */
-function deleteProduct(index){
-  const products = getProducts();
-  products.splice(index, 1);
-  saveProducts(products);
-  loadProducts();
-}
-
-/* Escape user strings for simple safe insertion */
-function escapeHtml(str){
-  if (!str) return '';
-  return String(str)
-    .replace(/&/g,'&amp;')
-    .replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;')
-    .replace(/'/g,'&#039;');
-}
-
-/* If admin logged-in state should persist across reload in this simple approach:
-   we could store a small "isAdmin" flag in sessionStorage to keep modal closed for that session.
-   (Not implemented to keep it strict—modal appears each visit.) */
-
-/* Auto-focus the password box when page loads */
-pwInput.focus();
-</script>
-</body>
-</html>
-    .product-card {
-      background: white;
-      padding: 15px;
-      border-radius: 8px;
-      margin-top: 15px;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-    }
-    .edit-btn {
-      background: #ffc107;
-      margin-top: 5px;
-    }
-    .delete-btn {
-      background: #f44336;
-      margin-top: 5px;
+      max-width: 350px;
+      border: 2px solid var(--pink);
+      box-shadow: var(--shadow);
     }
   </style>
 </head>
 
 <body>
 
-<h1>Admin Login</h1>
-
-<div id="loginSection">
-  <input type="password" id="adminPass" placeholder="Enter Password">
-  <button onclick="login()">Login</button>
+<div class="modal-overlay" id="loginModal">
+  <div class="modal-content">
+    <h2 style="text-align:center;">🔐 Admin Login</h2>
+    <label>Password</label>
+    <input type="password" id="adminPass" placeholder="Enter password">
+    <button id="loginBtn" style="width:100%; margin-top:10px;">Login</button>
+    <p id="loginError" style="color:red; display:none; text-align:center; margin-top:10px;">Incorrect password</p>
+  </div>
 </div>
 
-<div id="adminPanel" style="display:none;">
+<div class="container" id="adminPanel" style="display:none;">
 
-  <h2>Add / Edit Product</h2>
+  <h1>🍰 Mathole Bakery Admin</h1>
 
-  <input type="hidden" id="editIndex">
+  <div class="card">
+    <h2>Add / Edit Product</h2>
 
-  <input type="text" id="pName" placeholder="Product Name">
-  <input type="text" id="pPrice" placeholder="Price (e.g., R350)">
-  <input type="text" id="pImage" placeholder="Image URL">
-  
-  <select id="pCategory">
-    <option value="">Select Category</option>
-    <option>Scones</option>
-    <option>Biscuits</option>
-    <option>Cupcakes</option>
-    <option>Cakes</option>
-    <option>Specials</option>
-    <option>Cookies</option>
-    <option>Custom Orders</option>
-  </select>
+    <input type="hidden" id="editIndex">
 
-  <textarea id="pDesc" placeholder="Description"></textarea>
+    <label>Product Name</label>
+    <input id="pName" placeholder="e.g. Chocolate Cupcakes">
 
-  <label>
-    <input type="checkbox" id="pFeatured"> Mark as Featured Product
-  </label>
+    <label>Price (R)</label>
+    <input id="pPrice" placeholder="e.g. 150">
 
-  <button onclick="saveProduct()">Save Product</button>
-
-  <h2>Current Products</h2>
-  <div id="productList"></div>
-
-</div>
-
-<script>
-const ADMIN_PASSWORD = "Mathole123"; // change password anytime
-
-function login() {
-  const pass = document.getElementById("adminPass").value;
-  if (pass === ADMIN_PASSWORD) {
-    document.getElementById("loginSection").style.display = "none";
-    document.getElementById("adminPanel").style.display = "block";
-    loadProducts();
-  } else {
-    alert("Incorrect password!");
-  }
-}
-
-function getProducts() {
-  return JSON.parse(localStorage.getItem("products") || "[]");
-}
-
-function saveProducts(list) {
-  localStorage.setItem("products", JSON.stringify(list));
-}
-
-function saveProduct() {
-  const name = pName.value.trim();
-  const price = pPrice.value.trim();
-  const image = pImage.value.trim();
-  const desc = pDesc.value.trim();
-  const category = pCategory.value;
-  const featured = pFeatured.checked;
-  const editIndex = document.getElementById("editIndex").value;
-
-  if (!name || !price || !category) {
-    alert("Name, price, and category are required.");
-    return;
-  }
-
-  let products = getProducts();
-  const newProduct = { name, price, image, desc, category, featured };
-
-  if (editIndex === "") {
-    products.push(newProduct);
-  } else {
-    products[editIndex] = newProduct;
-  }
-
-  saveProducts(products);
-  loadProducts();
-
-  pName.value = "";
-  pPrice.value = "";
-  pImage.value = "";
-  pDesc.value = "";
-  pCategory.value = "";
-  pFeatured.checked = false;
-  editIndex.value = "";
-}
-
-function loadProducts() {
-  const products = getProducts();
-  const container = document.getElementById("productList");
-  container.innerHTML = "";
-
-  products.forEach((p, i) => {
-    container.innerHTML += `
-      <div class="product-card">
-        <h3>${p.name}</h3>
-        <p><strong>Price:</strong> ${p.price}</p>
-        <p><strong>Category:</strong> ${p.category}</p>
-        <p><strong>Featured:</strong> ${p.featured ? "Yes" : "No"}</p>
-        <p>${p.desc}</p>
-        <img src="${p.image}" style="max-width:100%; border-radius:6px;margin-top:10px">
-
-        <button class="edit-btn" onclick="editProduct(${i})">Edit</button>
-        <button class="delete-btn" onclick="deleteProduct(${i})">Delete</button>
-      </div>
-    `;
-  });
-}
-
-function editProduct(index) {
-  const p = getProducts()[index];
-
-  pName.value = p.name;
-  pPrice.value = p.price;
-  pImage.value = p.image;
-  pDesc.value = p.desc;
-  pCategory.value = p.category;
-  pFeatured.checked = p.featured;
-  editIndex.value = index;
-}
-
-function deleteProduct(index) {
-  const products = getProducts();
-  products.splice(index, 1);
-  saveProducts(products);
-  loadProducts();
-}
-</script>
-
-</body>
-</html>
-
-    <input id="pName" placeholder="Product Name">
-    <input id="pPrice" placeholder="Price (e.g., R50)">
-    <input id="pImage" placeholder="Image URL">
-    <textarea id="pDesc" placeholder="Description"></textarea>
+    <label>Image URL</label>
+    <input id="pImage" placeholder="https://...">
 
     <label>Category</label>
     <select id="pCategory">
+      <option value="">Select Category</option>
       <option>Scones</option>
       <option>Biscuits</option>
       <option>Cupcakes</option>
@@ -1304,124 +180,130 @@ function deleteProduct(index) {
       <option>Custom Orders</option>
     </select>
 
+    <label>Description</label>
+    <textarea id="pDesc" placeholder="Short product description"></textarea>
+
     <label>
-      <input type="checkbox" id="pFeatured"> ⭐ Make Featured Product
+      <input type="checkbox" id="pFeatured"> ⭐ Featured Product
     </label>
 
-    <button onclick="saveProduct()">Save Product</button>
+    <button onclick="saveProduct()" style="margin-top:10px;">Save Product</button>
   </div>
 
   <div class="card">
     <h2>All Products</h2>
     <div id="productList"></div>
   </div>
+
 </div>
 
 <script>
-/* ---------------- PASSWORD LOGIN ---------------- */
-const ADMIN_PASS = "Mathole123";
+const ADMIN_PASSWORD = "Mathole123"; // change anytime you want
 
-function login() {
-  const pass = document.getElementById("adminPassword").value;
-  if (pass === ADMIN_PASS) {
-    document.getElementById("loginBox").style.display = "none";
+/* ---------------- LOGIN ---------------- */
+document.getElementById("loginBtn").onclick = () => {
+  const pass = document.getElementById("adminPass").value;
+  if (pass === ADMIN_PASSWORD) {
+    document.getElementById("loginModal").style.display = "none";
     document.getElementById("adminPanel").style.display = "block";
     loadProducts();
   } else {
-    alert("Wrong password!");
+    document.getElementById("loginError").style.display = "block";
   }
-}
+};
 
 /* ---------------- STORAGE ---------------- */
 function getProducts() {
   return JSON.parse(localStorage.getItem("products") || "[]");
 }
-function saveProducts(data) {
-  localStorage.setItem("products", JSON.stringify(data));
+
+function saveProducts(list) {
+  localStorage.setItem("products", JSON.stringify(list));
 }
 
-/* ---------------- ADD / EDIT PRODUCT ---------------- */
-let editIndex = null;
-
+/* ---------------- SAVE PRODUCT ---------------- */
 function saveProduct() {
-  const name = document.getElementById("pName").value;
-  const price = document.getElementById("pPrice").value;
-  const image = document.getElementById("pImage").value;
-  const desc = document.getElementById("pDesc").value;
-  const category = document.getElementById("pCategory").value;
-  const featured = document.getElementById("pFeatured").checked;
+  const name = pName.value.trim();
+  const price = pPrice.value.trim();
+  const image = pImage.value.trim();
+  const desc = pDesc.value.trim();
+  const category = pCategory.value;
+  const featured = pFeatured.checked;
+  const index = editIndex.value;
 
-  if (!name || !price) return alert("Name & Price are required");
+  if (!name || !price || !category) {
+    alert("Product name, price, and category are required.");
+    return;
+  }
 
-  let products = getProducts();
+  let list = getProducts();
 
   if (featured) {
-    products.forEach(p => p.featured = false);
+    list.forEach(p => p.featured = false);
   }
 
-  const productData = { name, price, image, desc, category, featured };
+  const newProduct = { name, price, image, desc, category, featured };
 
-  if (editIndex !== null) {
-    products[editIndex] = productData;
-    editIndex = null;
+  if (index === "") {
+    list.push(newProduct);
   } else {
-    products.push(productData);
+    list[index] = newProduct;
   }
 
-  saveProducts(products);
+  saveProducts(list);
   loadProducts();
   clearForm();
 }
 
-function clearForm() {
-  document.getElementById("pName").value = "";
-  document.getElementById("pPrice").value = "";
-  document.getElementById("pImage").value = "";
-  document.getElementById("pDesc").value = "";
-  document.getElementById("pFeatured").checked = false;
-}
-
-/* ---------------- LIST PRODUCTS ---------------- */
+/* ---------------- LOAD PRODUCTS ---------------- */
 function loadProducts() {
   const list = getProducts();
-  const container = document.getElementById("productList");
-  container.innerHTML = "";
+  productList.innerHTML = "";
 
   list.forEach((p, i) => {
-    container.innerHTML += `
+    productList.innerHTML += `
       <div class="product-card">
         <h3>${p.name} ${p.featured ? "⭐" : ""}</h3>
-        <p>${p.price}</p>
-        <p><b>Category:</b> ${p.category}</p>
+        <p><strong>Price:</strong> R${p.price}</p>
+        <p><strong>Category:</strong> ${p.category}</p>
         <p>${p.desc}</p>
-        <img src="${p.image}" style="width:100%; border-radius:6px;">
-        <button class="edit-btn" onclick="editProduct(${i})">Edit</button>
-        <button class="delete-btn" onclick="deleteProduct(${i})">Delete</button>
+        ${p.image ? `<img src="${p.image}" alt="">` : ""}
+        <button class="small-btn" onclick="editProduct(${i})">Edit</button>
+        <button class="small-btn danger" onclick="deleteProduct(${i})">Delete</button>
       </div>
     `;
   });
 }
 
+/* ---------------- EDIT PRODUCT ---------------- */
+function editProduct(i) {
+  const p = getProducts()[i];
+  pName.value = p.name;
+  pPrice.value = p.price;
+  pImage.value = p.image;
+  pDesc.value = p.desc;
+  pCategory.value = p.category;
+  pFeatured.checked = p.featured;
+  editIndex.value = i;
+}
+
 /* ---------------- DELETE PRODUCT ---------------- */
 function deleteProduct(i) {
-  let list = getProducts();
+  const list = getProducts();
   list.splice(i, 1);
   saveProducts(list);
   loadProducts();
 }
 
-/* ---------------- EDIT PRODUCT ---------------- */
-function editProduct(i) {
-  const p = getProducts()[i];
-
-  document.getElementById("pName").value = p.name;
-  document.getElementById("pPrice").value = p.price;
-  document.getElementById("pImage").value = p.image;
-  document.getElementById("pDesc").value = p.desc;
-  document.getElementById("pCategory").value = p.category;
-  document.getElementById("pFeatured").checked = p.featured;
-
-  editIndex = i;
+/* ---------------- CLEAR FORM ---------------- */
+function clearForm() {
+  pName.value = "";
+  pPrice.value = "";
+  pImage.value = "";
+  pDesc.value = "";
+  pCategory.value = "";
+  pFeatured.checked = false;
+  editIndex.value = "";
 }
 </script>
 
