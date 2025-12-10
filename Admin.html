@@ -319,6 +319,26 @@
         align-items: flex-start;
       }
     }
+    .modal-overlay {
+  backdrop-filter: blur(8px);  /* Strong blur effect */
+  animation: fadeIn 0.3s ease; /* Fade animation */
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-content {
+  border: 2px solid var(--primary);  /* Glowing border */
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
   </style>
 </head>
 <body>
