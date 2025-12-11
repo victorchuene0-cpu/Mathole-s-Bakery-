@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mathole’s Bakery — Full Menu</title>
+
+  <!-- Premium Pink & Gold Theme -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #fff8fb;
+      color: #4a235a;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px;
+      background: linear-gradient(to right, #fbc2eb, #a6c1ee);
+      color: white;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    nav {
+      background: white;
+      padding: 10px 0;
+      border-bottom: 1px solid #ddd;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    nav a {
+      margin: 0 10px;
+      color: #4a235a;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      color: #ff66b2;
+    }
+
+    .hero {
+      padding: 50px 20px;
+      text-align: center;
+      background: linear-gradient(to right, #ffe4f2, #e8d5ff);
+      color: #4a235a;
+      margin-bottom: 20px;
+    }
+
+    .hero h2 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    .category-filters {
+      text-align: center;
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+
+    .category-filters button {
+      padding: 8px 18px;
+      margin: 5px;
+      border: none;
+      background: #ff66b2;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .category-filters button:hover {
+      background: #e655a3;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      padding: 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .menu-card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: 0.3s;
+      border: 2px solid #ffd1e6;
+    }
+
+    .menu-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 22px rgba(0,0,0,0.15);
+    }
+
+    .menu-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .menu-card .content {
+      padding: 15px;
+    }
+
+    .menu-card h3 {
+      margin-top: 0;
+      color: #ff66b2;
+    }
+
+    .price-line {
+      background: #fff1f7;
+      padding: 5px 8px;
+      margin: 5px 0;
+      border-radius: 5px;
+      border: 1px solid #ffd6e8;
+    }
+
+    .order-btn {
+      width: 100%;
+      display: block;
+      padding: 10px;
+      text-align: center;
+      background: #ff66b2;
+      color: white;
+      font-weight: bold;
+      border-radius: 6px;
+      margin-top: 10px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .order-btn:hover {
+      background: #e655a3;
+    }
+
+    /* POPUP ORDER FORM */
+    #orderPopup {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    #orderBox {
+      background: white;
+      padding: 25px;
+      width: 90%;
+      max-width: 420px;
+      border-radius: 10px;
+      box-shadow: 0 5px 30px rgba(0,0,0,0.25);
+    }
+
+    #orderBox h2 {
+      text-align: center;
+      color: #ff66b2;
+    }
+
+    #orderBox input, #orderBox select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    #orderBox button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 15px;
+      background: #ff66b2;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    #orderBox button:hover {
+      background: #e655a3;
+    }
+
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Mathole’s Bakery — Full Menu</h1>
+  <p>Freshly baked delights with premium quality</p>
+</header>
+
+<nav>
+  <a href="index.html">Home</a>
+  <a href="#categories">Categories</a>
+  <a href="#all-products">All Products</a>
+</nav>
+
+<section class="hero">
+  <h2>Explore Our Delicious Menu</h2>
+  <p>Choose your favourites — Fresh, tasty and made with love.</p>
+</section>
+
+<section id="categories">
+  <div class="category-filters">
+    <button onclick="filterCategory('all')">All</button>
+    <button onclick="filterCategory('Scones')">Scones</button>
+    <button onclick="filterCategory('Biscuits')">Biscuits</button>
+    <button onclick="filterCategory('Cupcakes')">Cupcakes</button>
+    <button onclick="filterCategory('Cakes')">Cakes</button>
+    <button onclick="filterCategory('Cookies')">Cookies</button>
+    <button onclick="filterCategory('Specials')">Specials</button>
+    <button onclick="filterCategory('Custom Orders')">Custom Orders</button>
+  </div>
+</section>
+
+<!-- MENU GRID -->
+<section id="all-products">
+  <div id="menuGrid" class="menu-grid"></div>
+</section>
+
+<!-- ORDER POPUP -->
+<div id="orderPopup">
+  <div id="orderBox">
+    <h2>Place Your Order</h2>
+
+    <input type="text" id="orderName" placeholder="Your Name" />
+    <input type="text" id="orderPhone" placeholder="Phone Number" />
+    <input type="text" id="orderAddress" placeholder="Delivery Address" />
+
+    <select id="orderQuantity"></select>
+
+    <button onclick="sendOrder()">Send Order</button>
+    <button onclick="closePopup()" style="background:#aaa;margin-top:10px;">Cancel</button>
+  </div>
+</div>
+<script>
+/* Load products from admin (localStorage) */
+function loadMenu() {
+  const grid = document.getElementById("menuGrid");
+  const products = JSON.parse(localStorage.getItem("products") || "[]");
+  grid.innerHTML = "";
+
+  products.forEach((p, index) => {
+    let priceHTML = "";
+    p.quantities.forEach(qp => {
+      priceHTML += `<div class="price-line">${qp.q} — ${qp.p}</div>`;
+    });
+
+    grid.innerHTML += `
+      <div class="menu-card" data-category="${p.category}">
+        <img src="${p.image}" alt="${p.name}">
+        <div class="content">
+          <h3>${p.name}</h3>
+          <p>${p.desc || ""}</p>
+          ${priceHTML}
+          <button class="order-btn" onclick='openPopup(${index})'>Order</button>
+        </div>
+      </div>
+    `;
+  });
+}
+
+document.addEventListener("DOMContentLoaded", loadMenu);
+
+/* CATEGORY FILTER */
+function filterCategory(cat) {
+  const cards = document.querySelectorAll(".menu-card");
+
+  cards.forEach(card => {
+    if (cat === "all" || card.dataset.category === cat) {
+      card.style.display = "block";
+    } else {
+      card.style.display = "none";
+    }
+  });
+}
+
+/* ORDER POPUP SYSTEM */
+let selectedProduct = null;
+
+function openPopup(index) {
+  const products = JSON.parse(localStorage.getItem("products") || "[]");
+  selectedProduct = products[index];
+
+  const qtySelect = document.getElementById("orderQuantity");
+  qtySelect.innerHTML = "";
+
+  selectedProduct.quantities.forEach(qp => {
+    qtySelect.innerHTML += `<option value="${qp.q}|${qp.p}">${qp.q} — ${qp.p}</option>`;
+  });
+
+  document.getElementById("orderPopup").style.display = "flex";
+}
+
+function closePopup() {
+  document.getElementById("orderPopup").style.display = "none";
+}
+
+/* SEND ORDER (WHATSAPP + EMAIL) */
+function sendOrder() {
+  const name = document.getElementById("orderName").value;
+  const phone = document.getElementById("orderPhone").value;
+  const address = document.getElementById("orderAddress").value;
+  const qtyData = document.getElementById("orderQuantity").value.split("|");
+
+  const qtyLabel = qtyData[0];
+  const price = qtyData[1];
+
+  if (!name || !phone || !address) {
+    alert("Please fill in all fields.");
+    return;
+  }
+
+  /* FORMAT MESSAGE */
+  const msg =
+`📦 New Online Order — Mathole’s Bakery
+
+Item: ${selectedProduct.name}
+Qty Option: ${qtyLabel}
+Unit Price: ${price}
+
+Customer Info
+Name: ${name}
+Phone: ${phone}
+Address: ${address}
+
+Total: ${price}
+Order Time: ${new Date().toLocaleTimeString()}
+
+Thank you for your purchase ❤️`;
+
+  /* SEND TO WHATSAPP */
+  const url = "https://wa.me/27678200669?text=" + encodeURIComponent(msg);
+  window.open(url, "_blank");
+
+  /* ALSO SEND EMAIL */
+  fetch("https://formsubmit.co/ajax/mmashoka.mathole@gmail.com", {
+    method: "POST",
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      customer: name,
+      phone: phone,
+      address: address,
+      product: selectedProduct.name,
+      quantity: qtyLabel,
+      price: price,
+      message: msg
+    })
+  });
+
+  closePopup();
+}
+
+/* PAYMENT BUTTON PLACEHOLDER */
+function payNow() {
+  alert("Payment system will activate once you send me the Yoco/Paystack public key.");
+}
+</script>
+<footer style="text-align:center;padding:20px;background:#4a235a;color:white;margin-top:40px;">
+  © 2025 Mathole’s Bakery — All Rights Reserved
+</footer>
+
+</body>
+</html>
