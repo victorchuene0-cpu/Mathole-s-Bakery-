@@ -1017,7 +1017,9 @@
     </div>
 
   </div>
-  
+  <!-- Auto-loaded items appear below -->
+<div id="dynamicMenu" class="card-container"></div>
+
 
     <p><strong>Note: Prices are subject to changes.</strong></p>
   </section>
@@ -1377,11 +1379,45 @@ const navLinks = document.getElementById('navLinks');
 navToggle.addEventListener('click', () => {
   navLinks.classList.toggle('show');
 })
-  
+  <script>
+/* --- Add admin-created products BELOW the hard-coded menu --- */
+function loadExtraProducts() {
+  const container = document.getElementById("dynamicMenu");
+  if (!container) return;
+
+  const products = JSON.parse(localStorage.getItem("products") || "[]");
+
+  if (products.length === 0) {
+    return; // no products added yet — do nothing
+  }
+
+  products.forEach(p => {
+    let qtyHTML = "";
+    p.quantities.forEach(qp => {
+      qtyHTML += `<p>${qp.q} — ${qp.p}</p>`;
+    });
+
+    container.innerHTML += `
+      <div class="menu-item card">
+        <img src="${p.image || 'image/default.jpg'}" alt="${p.name}">
+        <div class="menu-item-details">
+          <h4>${p.name}</h4>
+          ${p.desc ? `<p>${p.desc}</p>` : ""}
+          ${qtyHTML}
+        </div>
+      </div>
+    `;
+  });
+}
+
+document.addEventListener("DOMContentLoaded", loadExtraProducts);
+</script>
+
   </script>
 </body>
           </html>
                                                                    
+
 
 
 
