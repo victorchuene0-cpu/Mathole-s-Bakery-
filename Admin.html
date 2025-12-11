@@ -1,293 +1,169 @@
-<!DOCTYPE html>
-<html lang="en">
+  <!DOCTYPE html>
+<html>
 <head>
-  <meta charset="UTF-8">
+  <title>Admin Panel – Mathole Bakery</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mathole Bakery Admin</title>
 
   <style>
-    :root {
-      --pink: #f8c7d0;
-      --pink-dark: #e4a9b7;
-      --gold: #e8d3a8;
-      --text: #4a3b3b;
-      --light: #fff7f9;
-      --border: #e8d3d8;
-      --radius: 14px;
-      --shadow: 0 6px 18px rgba(0,0,0,0.08);
-    }
-
     body {
-      margin: 0;
-      font-family: "Inter", sans-serif;
-      background: var(--light);
-      color: var(--text);
+      font-family: Arial, sans-serif;
+      background: #fff5f7;
+      color: #4a235a;
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 10px;
     }
-
-    .container {
-      max-width: 900px;
-      margin: auto;
-      padding: 20px 15px;
-    }
-
-    h1 {
+    h1, h2 {
       text-align: center;
-      font-size: 2rem;
-      color: var(--pink-dark);
+      color: #ff66b2;
+    }
+    input, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+    button {
+      background: #ff66b2;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #e655a3;
+    }
+    .product-card {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 20px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    }
+    .qty-group {
+      background: #f7e8f0;
+      padding: 10px;
+      border-radius: 6px;
       margin-bottom: 10px;
     }
-
-    h2 {
-      font-size: 1.4rem;
-      margin-bottom: 12px;
-      color: var(--pink-dark);
+    .edit-btn {
+      background: #4a90e2;
     }
-
-    /* Card */
-    .card {
-      background: white;
-      padding: 20px;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border);
-      margin-bottom: 25px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: 600;
-    }
-
-    input, textarea, select {
-      width: 100%;
-      padding: 12px;
-      font-size: 1rem;
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      margin-bottom: 15px;
-      background: #fff;
-    }
-
-    textarea { resize: vertical; }
-
-    button {
-      background: var(--pink);
-      border: none;
-      padding: 12px 20px;
-      border-radius: var(--radius);
-      font-size: 1rem;
-      cursor: pointer;
-      font-weight: 600;
-      color: white;
-      transition: 0.2s;
-    }
-
-    button:hover {
-      background: var(--pink-dark);
-    }
-
-    .danger {
-      background: #e57373;
-    }
-
-    .danger:hover {
+    .delete-btn {
       background: #d9534f;
-    }
-
-    .small-btn {
-      padding: 8px 14px;
-      font-size: 0.9rem;
-    }
-
-    .product-card {
-      background: var(--light);
-      padding: 15px;
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      margin-bottom: 15px;
-    }
-
-    .product-card img {
-      width: 100%;
-      border-radius: var(--radius);
-      margin-top: 10px;
-    }
-
-    /* Modal */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(4px);
-      z-index: 999;
-    }
-
-    .modal-content {
-      background: white;
-      padding: 25px;
-      border-radius: var(--radius);
-      width: 90%;
-      max-width: 350px;
-      border: 2px solid var(--pink);
-      box-shadow: var(--shadow);
     }
   </style>
 </head>
 
 <body>
 
-<div class="modal-overlay" id="loginModal">
-  <div class="modal-content">
-    <h2 style="text-align:center;">🔐 Admin Login</h2>
-    <label>Password</label>
-    <input type="password" id="adminPass" placeholder="Enter password">
-    <button id="loginBtn" style="width:100%; margin-top:10px;">Login</button>
-    <p id="loginError" style="color:red; display:none; text-align:center; margin-top:10px;">Incorrect password</p>
-  </div>
+<h1>Owner Admin Panel</h1>
+
+<!-- LOGIN SCREEN -->
+<div id="loginSection">
+  <h2>Enter Admin Password</h2>
+  <input type="password" id="adminPass" placeholder="Password">
+  <button onclick="login()">Login</button>
 </div>
 
-<div class="container" id="adminPanel" style="display:none;">
+<!-- ADMIN PANEL -->
+<div id="adminPanel" style="display:none;">
 
-  <h1>🍰 Mathole Bakery Admin</h1>
+  <h2>Add New Product</h2>
 
-  <div class="card">
-    <h2>Add / Edit Product</h2>
+  <input type="text" id="pName" placeholder="Product name">
+  <input type="text" id="pImage" placeholder="Image URL">
+  <textarea id="pDesc" placeholder="Description (optional)"></textarea>
 
-    <input type="hidden" id="editIndex">
+  <h3>Quantities & Prices</h3>
+  <div id="qtyContainer"></div>
+  <button onclick="addQtyField()">+ Add Quantity</button>
+  <br><br>
 
-    <label>Product Name</label>
-    <input id="pName" placeholder="e.g. Chocolate Cupcakes">
+  <button onclick="addProduct()">Add Product</button>
 
-    <label>Price (R)</label>
-    <input id="pPrice" placeholder="e.g. 150">
-
-    <label>Image URL</label>
-    <input id="pImage" placeholder="https://...">
-
-    <label>Category</label>
-    <select id="pCategory">
-      <option value="">Select Category</option>
-      <option>Scones</option>
-      <option>Biscuits</option>
-      <option>Cupcakes</option>
-      <option>Cakes</option>
-      <option>Specials</option>
-      <option>Cookies</option>
-      <option>Custom Orders</option>
-    </select>
-
-    <label>Description</label>
-    <textarea id="pDesc" placeholder="Short product description"></textarea>
-
-    <label>
-      <input type="checkbox" id="pFeatured"> ⭐ Featured Product
-    </label>
-
-    <button onclick="saveProduct()" style="margin-top:10px;">Save Product</button>
-  </div>
-
-  <div class="card">
-    <h2>All Products</h2>
-    <div id="productList"></div>
-  </div>
+  <h2>Your Products</h2>
+  <div id="productList"></div>
 
 </div>
 
 <script>
-const ADMIN_PASSWORD = "Mathole123"; // change anytime you want
+/* PASSWORD */
+const ADMIN_PASSWORD = "Mathole123";
 
-/* ---------------- LOGIN ---------------- */
-document.getElementById("loginBtn").onclick = () => {
+/* QUANTITY INPUT SYSTEM */
+function addQtyField(q="", p="") {
+  const container = document.getElementById("qtyContainer");
+  const div = document.createElement("div");
+  div.className = "qty-group";
+
+  div.innerHTML = `
+    <input type="text" placeholder="Quantity (e.g., 5 Litre)" class="qty" value="${q}">
+    <input type="text" placeholder="Price (e.g., R230)" class="price" value="${p}">
+    <button onclick="this.parentElement.remove()">Remove</button>
+  `;
+
+  container.appendChild(div);
+}
+
+/* LOGIN */
+function login() {
   const pass = document.getElementById("adminPass").value;
   if (pass === ADMIN_PASSWORD) {
-    document.getElementById("loginModal").style.display = "none";
+    document.getElementById("loginSection").style.display = "none";
     document.getElementById("adminPanel").style.display = "block";
     loadProducts();
   } else {
-    document.getElementById("loginError").style.display = "block";
+    alert("Incorrect password!");
   }
-};
+}
 
-/* ---------------- STORAGE ---------------- */
+/* STORAGE */
 function getProducts() {
   return JSON.parse(localStorage.getItem("products") || "[]");
 }
-
 function saveProducts(list) {
   localStorage.setItem("products", JSON.stringify(list));
 }
 
-/* ---------------- SAVE PRODUCT ---------------- */
-function saveProduct() {
-  const name = pName.value.trim();
-  const price = pPrice.value.trim();
-  const image = pImage.value.trim();
-  const desc = pDesc.value.trim();
-  const category = pCategory.value;
-  const featured = pFeatured.checked;
-  const index = editIndex.value;
+/* ADD PRODUCT */
+function addProduct() {
+  const name = document.getElementById("pName").value.trim();
+  const image = document.getElementById("pImage").value.trim();
+  const desc = document.getElementById("pDesc").value.trim();
 
-  if (!name || !price || !category) {
-    alert("Product name, price, and category are required.");
+  const qtyDivs = document.querySelectorAll(".qty-group");
+  if (!name || qtyDivs.length === 0) {
+    alert("Product name and at least 1 quantity required.");
     return;
   }
 
-  let list = getProducts();
-
-  if (featured) {
-    list.forEach(p => p.featured = false);
-  }
-
-  const newProduct = { name, price, image, desc, category, featured };
-
-  if (index === "") {
-    list.push(newProduct);
-  } else {
-    list[index] = newProduct;
-  }
-
-  saveProducts(list);
-  loadProducts();
-  clearForm();
-}
-
-/* ---------------- LOAD PRODUCTS ---------------- */
-function loadProducts() {
-  const list = getProducts();
-  productList.innerHTML = "";
-
-  list.forEach((p, i) => {
-    productList.innerHTML += `
-      <div class="product-card">
-        <h3>${p.name} ${p.featured ? "⭐" : ""}</h3>
-        <p><strong>Price:</strong> R${p.price}</p>
-        <p><strong>Category:</strong> ${p.category}</p>
-        <p>${p.desc}</p>
-        ${p.image ? `<img src="${p.image}" alt="">` : ""}
-        <button class="small-btn" onclick="editProduct(${i})">Edit</button>
-        <button class="small-btn danger" onclick="deleteProduct(${i})">Delete</button>
-      </div>
-    `;
+  const quantities = [];
+  qtyDivs.forEach(div => {
+    const q = div.querySelector(".qty").value.trim();
+    const p = div.querySelector(".price").value.trim();
+    if (q && p) quantities.push({ q, p });
   });
+
+  if (quantities.length === 0) {
+    alert("Please fill in quantity and price.");
+    return;
+  }
+
+  const products = getProducts();
+  products.push({ name, image, desc, quantities });
+  saveProducts(products);
+
+  document.getElementById("qtyContainer").innerHTML = "";
+  document.getElementById("pName").value = "";
+  document.getElementById("pImage").value = "";
+  document.getElementById("pDesc").value = "";
+
+  loadProducts();
 }
 
-/* ---------------- EDIT PRODUCT ---------------- */
-function editProduct(i) {
-  const p = getProducts()[i];
-  pName.value = p.name;
-  pPrice.value = p.price;
-  pImage.value = p.image;
-  pDesc.value = p.desc;
-  pCategory.value = p.category;
-  pFeatured.checked = p.featured;
-  editIndex.value = i;
-}
-
-/* ---------------- DELETE PRODUCT ---------------- */
+/* DELETE PRODUCT */
 function deleteProduct(i) {
   const list = getProducts();
   list.splice(i, 1);
@@ -295,15 +171,64 @@ function deleteProduct(i) {
   loadProducts();
 }
 
-/* ---------------- CLEAR FORM ---------------- */
-function clearForm() {
-  pName.value = "";
-  pPrice.value = "";
-  pImage.value = "";
-  pDesc.value = "";
-  pCategory.value = "";
-  pFeatured.checked = false;
-  editIndex.value = "";
+/* EDIT PRODUCT */
+function editProduct(i) {
+  const list = getProducts();
+  const p = list[i];
+
+  const name = prompt("Edit name:", p.name);
+  const image = prompt("Edit image URL:", p.image);
+  const desc = prompt("Edit description:", p.desc);
+
+  if (!name) return alert("Name cannot be empty.");
+
+  // Edit quantities
+  let qtyString = "";
+  p.quantities.forEach(qp => {
+    qtyString += `${qp.q}:${qp.p},`;
+  });
+
+  const newQty = prompt(
+    "Edit quantities & prices.\nFormat:\n5 Litre:R230,10 Litre:R350\n\nCurrent:",
+    qtyString.slice(0,-1)
+  );
+
+  const qtyList = [];
+  newQty.split(",").forEach(pair => {
+    if (!pair.includes(":")) return;
+    const [q, pz] = pair.split(":");
+    qtyList.push({ q: q.trim(), p: pz.trim() });
+  });
+
+  list[i] = { name, image, desc, quantities: qtyList };
+  saveProducts(list);
+  loadProducts();
+}
+
+/* DISPLAY PRODUCTS */
+function loadProducts() {
+  const list = getProducts();
+  const container = document.getElementById("productList");
+  container.innerHTML = "";
+
+  list.forEach((p, i) => {
+    let qtyHTML = "";
+    p.quantities.forEach(qp => {
+      qtyHTML += `<p>${qp.q} — ${qp.p}</p>`;
+    });
+
+    container.innerHTML += `
+      <div class="product-card">
+        <h3>${p.name}</h3>
+        ${p.image ? `<img src="${p.image}" style="width:100%;border-radius:8px;">` : ""}
+        <p>${p.desc || ""}</p>
+        <h4>Quantities:</h4>
+        ${qtyHTML}
+        <button class="edit-btn" onclick="editProduct(${i})">Edit</button>
+        <button class="delete-btn" onclick="deleteProduct(${i})">Delete</button>
+      </div>
+    `;
+  });
 }
 </script>
 
